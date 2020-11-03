@@ -1,6 +1,6 @@
 # THOR
 Python : Script d'import de tableau Excel dans un document Word
-==	Présentation
+##	Présentation
 ===	Constat
 Lors de la réalisation d’une étude de risque avec la méthode EBIOS RM, l’utilisation d’une application dédiée facilite la production des différents livrables au format  Excel et images mais ne permet pas de réaliser un modèle de rapport personnalisé.
 === Besoin
