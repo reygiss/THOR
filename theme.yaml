@@ -1,0 +1,317 @@
+version: 3.1
+debug: true
+modeles:
+    Scénario_stratégique: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
+        type: "generique"
+        extension: "xls"
+        label: "Scénario stratégique {{ sc }} : " # {{ sc }} = indice du scenario
+        enteteWord: 2 # nombre de lignes d'entete du tableau Word
+        keyWord: "Scénario stratégique {{ sc }}" # Clé d'identification du tableau dans Word => {{ sc }} = indice du scenario
+        enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+        feuilleExcel: "Sheet1" #Nom de la feuille Excel
+        style:
+            borderWidth: 12 # epaisseur de la bordure en pt
+            borderColor: "#000000" # epaisseur de la bordure en pt
+            textStyle: 'Body Text'
+    Image_scénario_stratégique: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
+        type: "generique"
+        extension: "jpg"
+        height: 14 # width en cm
+        label: "Illustation scénario stratégique {{ sc }} : " # {{ sc }} = indice du scenario
+        enteteWord: 1 # nombre de lignes d'entete du tableau Word
+        keyWord: "Illustration du scénario stratégique {{ sc }}" # Clé d'identification du tableau dans Word, {{ sc }} = indice du scenario
+        style:
+            borderWidth: 12 # epaisseur de la bordure en pt
+            borderColor: "#000000" # epaisseur de la bordure en pt
+            alignment: center
+    Image_scénario_opérationnel: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
+        type: "generique"
+        extension: "jpg"
+        height: 14 # width en cm
+        label: "Illustation scénario opérationnel {{ sc }} : " # {{ sc }} = indice du scenario
+        enteteWord: 1 # nombre de lignes d'entete du tableau Word
+        keyWord: "Illustration du scénario opérationnel {{ sc }}" # Clé d'identification du tableau dans Word, {{ sc }} = indice du scenario
+        style:
+            borderWidth: 12 # epaisseur de la bordure en pt
+            borderColor: "#000000" # epaisseur de la bordure en pt
+            alignment: center
+echelles:
+    "Echelles de valeurs":
+        'Définir les echelles de valeurs':
+            gravite:
+                type: "file"
+                extension: "xls"
+                label: "Echelle de gravité : "
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                methode: "fixe"
+            pertinence:
+                type: "file"
+                extension: "xls"
+                label: "Echelle de pertinence : "
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                methode: "fixe"
+            menace:
+                type: "file"
+                extension: "xls"
+                label: "Echelle de menace : "
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                methode: "calculée"
+tableaux:
+    "Atelier 1":
+        'Définir le Périmètre Métier et Technique':
+            Valeurs_Metiers:
+                type: "file"
+                extension: "xls"
+                label: 'Base de Valeurs Métiers : '
+                enteteWord:  2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Valeurs Métiers" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text'
+            Biens_Supports:
+                type: "file"
+                extension: "xls"
+                label: 'Base de Biens Supports : '
+                enteteWord:  2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Biens supports" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text'
+            Synthese_perimetre_metier_et_technique:
+                type: "file"
+                extension: "xls"
+                label: 'Identifier les Missions : '
+                enteteWord:  3 # nombre de lignes d'entete du tableau Word
+                keyWord: "Synthèse du périmètre métier et technique" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#FFFFFF" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text'
+                    colonnes:
+                        0: # indice de la colonne
+                            backgroundColor: "#F8C9CC" #couleur de fond de la colonne
+                        1:
+                            backgroundColor: "#BEDFDF" #couleur de fond de la colonne
+                        2:
+                            backgroundColor: "#BEDFDF" #couleur de fond de la colonne
+                        3:
+                            backgroundColor: "#BEDFDF" #couleur de fond de la colonne
+                        4:
+                            backgroundColor: "#8DB3E2" #couleur de fond de la colonne
+                        5:
+                            backgroundColor: "#8DB3E2" #couleur de fond de la colonne
+                        6:
+                            backgroundColor: "#8DB3E2" #couleur de fond de la colonne
+        'Identifier les Événements Redoutés':
+            evenements_Redoutes:
+                type: "file"
+                extension: "xls"
+                label: 'Événements Redoutés (part 1) => Description : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Evénements redoutés" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text'
+                    colonnes:
+                        5: # indice de la colonne, attention commence à 0 pour la premiere colonne
+                            echelle: "gravite" # nom de la echelle
+                            alignment: center #alignement du texte dans la colonne
+            Besoins_Securite:
+                type: "file"
+                extension: "xls"
+                label : 'Événements Redoutés (part 2) => Besoins de Sécurité: '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Besoins de sécurité" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text'
+                    colonnes:
+                        3: # indice de la colonne, attention commence à 0 pour la premiere colonne
+                            echelle: "gravite" # nom de la echelle
+                            alignment: center #alignement du texte dans la colonne
+    "Atelier 2":
+        'Identifier les Sources de Risque et leurs Objectifs Visés':
+            Sources_Risques:
+                type: "file"
+                extension: "xls"
+                label: 'Base des Sources de Risques : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Sources de risques" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt   
+                    textStyle: 'Body Text'
+            Objectifs_vises:
+                type: "file"
+                extension: "xls"
+                label: 'Base des Objectifs Visés : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Objectifs visés" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt 
+                    textStyle: 'Body Text'                    
+            SROV:
+                type: "file"
+                extension: "xls"
+                label: 'Évaluer des Couples SROV : '
+                enteteWord: 3 # nombre de lignes d'entete du tableau Word
+                keyWord: "Couples sources et objectifs visés" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt 
+                    textStyle: 'Body Text'                    
+                    colonnes:
+                        4:
+                            echelle: "pertinence" # nom de la echelle
+                            alignment: center #alignement du texte dans la colonne
+    "Atelier 3":
+        "Construire la Cartographie de Menaces de l'Écosystème":
+            Description_parties_prenantes:
+                type: "file"
+                extension: "xls"
+                label: 'Base des Parties Prenantes : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Description des parties prenantes" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text' 
+            evaluation_Parties_prenantes:
+                type: "file"
+                extension: "xls"
+                label: 'Évaluer la menace : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Evaluation des parties prenantes" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text' 
+                    colonnes:
+                        4:
+                            backgroundColor : "#DDDDDD" #couleur de fond de la colonne
+                        7:
+                            backgroundColor : "#DDDDDD" #couleur de fond de la colonne
+                        8:
+                            echelle: "menace" # nom de la echelle
+            Representation_menace_numerique_ecosysteme:
+                type: "image"
+                extension: "jpg"
+                label: "Cartographie de la menace numérique : "
+                keyWord: "Cartographie de la menace numérique de l’écosystème"
+                enteteWord: 1
+                height: 14 # width en cm
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    alignment: center
+        'Élaborer les Scénarios Stratégiques':
+            Scénarios_stratégiques_retenus:
+                type: "file"
+                extension: "xls"
+                label: 'Afficher la Synthèse : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Scénarios stratégiques retenus" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text'
+            nbScenariosStrategiques: 
+                type: "scénariosStrategiques" # permet d'identifier les scenarios strategiques
+                label: "Nombre de scénarios stratégique" # label
+        "Définir les Mesures de Sécurité sur l'Écosystème":
+            Mesures_securite_ecosysteme:
+                type: "file"
+                extension: "xls"
+                label: 'Identifier les Mesures de Sécurité part 1 => Description : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Mesures de sécurité de l’écosystème" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text' 
+            Evaluation_menace_résiduelle_parties_prenantes:
+                type: "file"
+                extension: "xls"
+                label: 'Identifier les Mesures de Sécurité part 2 => Evaluation :'
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Evaluation de la menace résiduelle des parties prenantes" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text' 
+            Representation_menace_numerique_residuelle_ecosysteme:
+                type: "image"
+                extension: "jpg"
+                label: "Cartographie de la menace numérique résiduelle : "
+                keyWord: "Cartographie de la menace numérique résiduelle de l’écosystème"
+                enteteWord: 1
+                height: 14 # width en cm
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    alignment: center
+    "Atelier 4": 
+        'Élaborer les Scénarios Opérationnels':
+            nbScenariosOperationnels:
+                type: "scénariosOperationnels" # permet d'identifier les scenarios opérationnels
+                label: "Nombre de scénarios opérationnels" # label
+    "Atelier 5":
+        'Stratégie de Traitement du Risque':
+            mesures_securité:
+                type: "file"
+                extension: "xls"
+                label: 'Base de mesures de sécurité : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Mesures de sécurité" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text' 
+            PACS:
+                type: "file"
+                extension: "xls"
+                label: 'Afficher le PACS : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Plan d’Amélioration Continue de la Sécurité" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text' 
