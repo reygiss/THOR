@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import ttk
 from tkinter import filedialog, messagebox, END
 import tkinter.font as tkFont
 from functools import partial
@@ -380,7 +379,7 @@ def initWin():
     newLabelTitle(scrollable_frame,'THOR v'+str(thor["version"])+' – Traitement Hybride pour l’Optimisation du Rapport',bold).grid(column=0,row=numPart,pady=10)
     numPart=numPart+1
     #Menu
-    button = Button(scrollable_frame, text='Load config', image = jsonIcon, compound = LEFT, font=bold, command=partial(load_config,inputs)).grid(column=0,row=numPart)
+    Button(scrollable_frame, text='Load config', image = jsonIcon, compound = LEFT, font=bold, command=partial(load_config,inputs)).grid(column=0,row=numPart)
     numPart=numPart+1
 
     #####################################################################################################################
@@ -388,20 +387,20 @@ def initWin():
     rapport=newLabelFrame (scrollable_frame,"Rapport",bold)
 
     newLabel(rapport,'Document Word en entrée: ',bold).grid(column=0,row=numRow)
-    word = newEntry(rapport,normal,inputs["Rapport_input"]).grid(column=1,row=numRow)
-    button = Button(rapport, text=' search', font=bold, image = wordIcon, compound = LEFT, command=partial(update_file,".docx",inputs["Rapport_input"])).grid(column=2,row=numRow,padx=10)
+    newEntry(rapport,normal,inputs["Rapport_input"]).grid(column=1,row=numRow)
+    Button(rapport, text=' search', font=bold, image = wordIcon, compound = LEFT, command=partial(update_file,".docx",inputs["Rapport_input"])).grid(column=2,row=numRow,padx=10)
     numRow=numRow+1
 
     newLabel(rapport,'Document Word en sortie: ',bold).grid(column=0,row=numRow)
-    word = newEntry(rapport,normal,inputs["Rapport_output"]).grid(column=1,row=numRow)
-    button = Button(rapport, text=' search', font=bold, image = wordIcon, compound = LEFT, command=partial(update_file,".docx",inputs["Rapport_output"],True)).grid(column=2,row=numRow,padx=10)
+    newEntry(rapport,normal,inputs["Rapport_output"]).grid(column=1,row=numRow)
+    Button(rapport, text=' search', font=bold, image = wordIcon, compound = LEFT, command=partial(update_file,".docx",inputs["Rapport_output"],True)).grid(column=2,row=numRow,padx=10)
     numRow=numRow+1
 
     newLabel(rapport,'Fichier de configuration: ',bold).grid(column=0,row=numRow)
-    word = newEntry(rapport,normal,inputs["Config_file"]).grid(column=1,row=numRow)
-    button = Button(rapport, text=' search', font=bold, image = jsonIcon, compound = LEFT, command=partial(update_file,".json",inputs["Config_file"],True)).grid(column=2,row=numRow,padx=10)
+    newEntry(rapport,normal,inputs["Config_file"]).grid(column=1,row=numRow)
+    Button(rapport, text=' search', font=bold, image = jsonIcon, compound = LEFT, command=partial(update_file,".json",inputs["Config_file"],True)).grid(column=2,row=numRow,padx=10)
     numRow=numRow+1
-
+ 
     rapport.grid(row=numPart, column=0,padx=20, pady=10)
     numPart=numPart+1
 
@@ -445,7 +444,7 @@ def initWin():
     numrow=0 # positionnement au debut de l'atelier
     atel=newLabelFrame(scrollable_frame,"Journalisation",bold) # creation d'un atelier journalisation
     log=Text(atel,width=100,height=20) # Création d'un champ texte qui contiendra les journaux
-    button = Button(scrollable_frame, text=' Generate', image = wordIcon, compound = LEFT,font=bold, command=partial(launch_rapport,inputs,log,thor)).grid(column=0,row=numPart,pady=10) #Bouton de generation du rapport
+    Button(scrollable_frame, text=' Generate', image = wordIcon, compound = LEFT,font=bold, command=partial(launch_rapport,inputs,log,thor)).grid(column=0,row=numPart,pady=10) #Bouton de generation du rapport
     numPart=numPart+1 # ligne suivante sur la grille principale
     Label(atel,image = logIcon).grid(column=0,row=numrow,pady=10,padx=20) # Label
     log.grid(column=1,row=numrow,pady=10) # affichage des journaux
