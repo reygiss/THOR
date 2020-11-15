@@ -1,11 +1,10 @@
 import xlrd
 from docxtpl import DocxTemplate
-from docx import Document
 from docx.oxml.shared import OxmlElement, qn
-from docx.shared import Cm,Pt,RGBColor
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_COLOR_INDEX
+from docx.shared import Cm,RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 import sys,os
-from tkinter import messagebox,END
+from tkinter import END
  
  #####################################################################################################################
 # Suppression d'une table dans le document word
@@ -89,7 +88,6 @@ def load_echelle_fixe(excel,sheet,nbEntete,log,thor):
     try:
         # récupération de la taille du tableau, les fonctions max_row et max_col retourne des valeurs éronnées
         maxrow = sheet.nrows # Nombre de lignes dans le fichier Excel
-        maxcol = sheet.ncols # Nombre de colonnes dans le fichier Excel
         for x in range(nbEntete,maxrow):
             rgb=sheet.cell_value(x,3).split(',')
             echelle.append(EchelleFixe(sheet.cell_value(x,2),"#"+str(RGBColor(int(rgb[0]),int(rgb[1]),int(rgb[2])))))
@@ -123,7 +121,6 @@ def load_echelle_calculee(excel,sheet,nbEntete,log,thor):
     try:
         # récupération de la taille du tableau, les fonctions max_row et max_col retourne des valeurs éronnées
         maxrow = sheet.nrows # Nombre de lignes dans le fichier Excel
-        maxcol = sheet.ncols # Nombre de colonnes dans le fichier Excel
         for x in range(nbEntete,maxrow):
             rgb=sheet.cell_value(x,3).split(',')
             echelle.append(EchelleCalculee(sheet.cell_value(x,1),sheet.cell_value(x,2),"#"+str(RGBColor(int(rgb[0]),int(rgb[1]),int(rgb[2])))))
@@ -177,7 +174,7 @@ def copy_table(doc,index,tab,thor,excel, log):
             r=table.add_row() #on ajoute une ligne dans le tableau word
             r._element.append(OxmlElement('w:cantSplit')) # La ligne ne peut pas etre splitter sur plusieurs pages
             for y in range(1,maxcol): # On ignore la premiere colonne Excel qui contient les numéro de ligne, sinon pour chaque colonne, donc il y a une différence de 1 entre le numéro de la colonne word et celle Excel
-                lignes = val=sheet.cell_value(x,y) #On recopie la valeur de la cellule et on remplace les retour à la ligne par des sauts de ligne
+                lignes = sheet.cell_value(x,y) #On recopie la valeur de la cellule et on remplace les retour à la ligne par des sauts de ligne
                 if sheet.cell_type(x,y)>0: # type 0 = cellule vide, si la cellule n'est pas vide
                     text_cell = str(sheet.cell_value(x,y)) #On recopie la valeur de la cellule
                     text_cell_xf = wb.xf_list[sheet.cell_xf_index(x,y)] #On recopie les styles de la cellule
@@ -239,7 +236,6 @@ def copy_table(doc,index,tab,thor,excel, log):
                           for l in lignes:
                               p2=table.cell(x+ecart,y-1).add_paragraph()
                               add_run_copy(p2,r,l)
-                              splitted=True
                         else:
                           add_run_copy(p2,r)
                       delete_paragraph(p)
@@ -261,7 +257,6 @@ def copy_table(doc,index,tab,thor,excel, log):
             if rlo>=nbEnteteExcel: #on saute les entetes qui pourraient etre fusionnées
                #on fusionne les cellules dans le tableau word en faisant correspondre les numéro de ligne et de colonne
                table.cell(rlo+ecart,clo-1).merge(table.cell(rhi-1+ecart,chi-2)) # cf doc xlrd pour la limite superieure de mergedcell, il faut -1 afin d'avoir la bonne valeur dans word et on ignore la premiere colonne d'excel donc -1 supplémentaire pour la colonne dans word
-        indice = len(log.get("1.0",END))
         log.insert(END, "\ntableau du fichier Excel " + os.path.basename(excel) + " copié")
         return 0
     except:
@@ -368,7 +363,7 @@ class Echelle:
 
 class scenarioStrategique:
     def __init__(self,ref,nom):
-        sel.ref=ref
+        self.ref=ref
         self.nom=nom
 #####################################################################################################################
 # Generationn du rapport
@@ -459,7 +454,7 @@ def generate_rapport(config, context, log, thor):
                         if doc.tables[x].cell(0,0).text == tab["keyWord"]: #Si la cellule [0,0] de la table correspond
                             if config[tabKey]!='': # si le fichier excel est renseigné
                                 remove_row(doc.tables[x],doc.tables[x].rows[tab["enteteWord"]]) # effacement de l'ancienne illustration
-                                r=doc.tables[x].add_row() #ajout d'une ligne vierge dans le tableau word
+                                doc.tables[x].add_row() #ajout d'une ligne vierge dans le tableau word
                                 doc.tables[x].cell(0,1).paragraphs[0].add_run() # ajout d'un run pour contenir l'image
                                 doc.tables[x].cell(0,1).paragraphs[0].runs[0].add_picture(config[tabKey],height=Cm(tab["height"])) #ajout de l'image
                                 modifyTableBorders(doc.tables[x],tab["style"]["borderWidth"],tab["style"]["borderColor"]) # style des birdures
