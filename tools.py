@@ -104,7 +104,7 @@ def load_echelle_fixe(excel,sheet,nbEntete,log,thor):
 # chargement d'une echelle calculée a partir d'un fichier excel
 # INPUT : excel : chemin du fichier excel
 # INPUT : sheet : nom de la feuille excel
-# INPUT : nbEnetete : nombre de lignes d'entete du tableau excel
+# INPUT : nbEntete : nombre de lignes d'entete du tableau excel
 # INPUT : log : pointeur sur a fenetre de journalisation
 def load_echelle_calculee(excel,sheet,nbEntete,log,thor):
     echelle=[]
@@ -204,7 +204,7 @@ def copy_table(doc,index,tab,thor,excel, log):
                           r=p.add_run() # On ajoute un run à word
                           r.text=segment['text'] # On colle la valeur dans la cellule correspondante sous Word
                           if segment['font'].italic: # Si le segment est en italique
-                            r.font.bold = True
+                            r.font.italic = True
                           if segment['font'].bold: # Si le segment est en Gras
                             r.font.bold = True
                           if segment['font'].underlined : # Si le segment est souligne
