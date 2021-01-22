@@ -294,6 +294,8 @@ def insert_thor_oper(thor):
 # INPUT : config : tableau contenant toutes les variables des champs textes
 def launch_rapport(config,log, thor):
     global context
+    if not check_config(config, log):
+            return False
     config=save_config(config); # sauvegarde de la configuration
     # recherche de la configuraiton des scenarios stratefique
     insert_thor_strat(thor) # insertion des scenario strategiques
@@ -306,6 +308,17 @@ def launch_rapport(config,log, thor):
         messagebox.showerror(title="alert", message="la génération du rapport terminée avec "+str(nbError)+" erreurs")
        
 
+def check_config(config, log):
+    if config["Config_file"].get()=="":
+        messagebox.showerror(title="alert", message="le fichier de configuration n'est pas renseigné")
+        return False
+    if config["Rapport_input"].get()=="":
+        messagebox.showerror(title="alert", message="le fichier Word d'entrée n'est pas renseigné")
+        return False
+    if config["Rapport_output"].get()=="":
+        messagebox.showerror(title="alert", message="le fichier Word de sortie n'est pas renseigné")
+        return False
+    return True
 #####################################################################################################################
 ## MAIN ##
 #####################################################################################################################
