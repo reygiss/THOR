@@ -144,7 +144,10 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
         maxrow = sheet.nrows  # Nombre de lignes dans le fichier Excel
         for x in range(nbentete, maxrow):
             rgb = sheet.cell_value(x, 3).split(',')
-            echelle.append(EchelleCalculee(sheet.cell_value(x, 1), sheet.cell_value(x, 2), "#"+str(RGBColor(int(rgb[0]), int(rgb[1]), int(rgb[2])))))
+            echelle.append(EchelleCalculee(sheet.cell_value(x, 1),
+                           sheet.cell_value(x, 2),
+                           "#"+str(RGBColor(int(rgb[0]),
+                            int(rgb[1]), int(rgb[2])))))
         return echelle
     except:
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
@@ -289,11 +292,11 @@ def copy_table(doc, index, tab, thor, excel, log):
                         for r in p.runs:
                             lignes = r.text.split('\n')
                             if len(lignes) > 1:
-                                    for l in lignes:
-                                        p2 = table.cell(x+ecart, y-1).add_paragraph()
-                                        add_run_copy(p2, r, l)
+                                for l in lignes:
+                                    p2 = table.cell(x+ecart, y-1).add_paragraph()
+                                    add_run_copy(p2, r, l)
                             else:
-                                    add_run_copy(p2, r)
+                                add_run_copy(p2, r)
                         delete_paragraph(p)
                     # Nettoyage finale, suppression des paragraphs
                     # vides et application du style
@@ -434,15 +437,18 @@ class Echelle:
     def __init__(self, echkey, methode, excel, sheet, nbentete, log, thor):
         self.methode = methode  # memorisation de la methode de l'echelle
         if methode == "fixe":
-            self.valeurs = load_echelle_fixe(excel, sheet, nbentete, log, thor)  # chargement d'une echelle fixe
+            # chargement d'une echelle fixe
+            self.valeurs = load_echelle_fixe(excel, sheet, nbentete, log, thor)
         elif methode == "calculée":
-            self.valeurs = load_echelle_calculee(excel, sheet, nbentete, log, thor)  # chargement d'une echelle calculée
+            # chargement d'une echelle calculée
+            self.valeurs = load_echelle_calculee(excel, sheet, nbentete, log, thor)
         else:
             if thor["debug"]:  # si mode debug activ" # si mode debug activ"
                 sys.exc_info()[0]  # On affiche l'erreur
                 raise  # levée de l'erreur
             else:
-                log.insert(END, "\nWarning : La configuration de la legende '"+echkey+"' n'est pas conforme")
+                log.insert(END, "\nWarning : La configuration de la \
+                legende '"+echkey+"' n'est pas conforme")
 
 ###################################################################
 # class permettant de récupérer la liste des scenarios stratégiques
@@ -474,7 +480,8 @@ def generate_rapport(config, context, log, thor):
             sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
         else:
-            log.insert(END, "\nERROR : le document word '"+config["Rapport_input"]+"' ne peut pas etre ouvert")
+            log.insert(END, "\nERROR : le document word '"+config["Rapport_input"]+"' \
+            ne peut pas etre ouvert")
             raise
 
     # chargement des legendes a partir des fichiers Excel
@@ -485,7 +492,8 @@ def generate_rapport(config, context, log, thor):
                     excel = config[echkey]  # recuperation du chemin du fichier excel
                     sheet = ech["feuilleExcel"]  # recuperation du nom de la feuille Excel
                     nbentete = ech["enteteExcel"]  # nombre de ligne d'entete du fichier excel
-                    echelle[echkey] = Echelle(echkey, ech["methode"], excel, sheet, nbentete, log, thor)  # chargement de l'echelle
+                    # chargement de l'echelle
+                    echelle[echkey] = Echelle(echkey, ech["methode"], excel, sheet, nbentete, log, thor)
                     log.insert(END, "\nechelle fixe "+echkey+" copiée")
                 else:
                     log.insert(END, "\nWARNING: La légende "+echkey+" a été ignorée")
@@ -493,9 +501,9 @@ def generate_rapport(config, context, log, thor):
     # Recherche des table à copier lors d'une lecture du document word.
     for x in range(0, len(doc.tables)):  # Pour chaque table
         # niveau 2 regroupement par atelier
-        for atelierkey, atelier in thor["tableaux"].items():
+        for _atelierkey, atelier in thor["tableaux"].items():
             # niveau 3 regroupement par sous-atelier
-            for titlekey, title in atelier.items():
+            for _titlekey, title in atelier.items():
                 # niveau 4 - pour chaque tableau
                 for tabkey, tab in title.items():
                     # si fichier Excel
@@ -538,7 +546,8 @@ def generate_rapport(config, context, log, thor):
                                                             elif ech.methode == "calculée":  # si c'est une echelle calculée
                                                                 # si le seuil correspond
                                                                 if float(cell.text[0:3]) >= float(ech.valeurs[z].seuil):
-                                                                    set_shade_cell(cell, ech.valeurs[z].couleur)  # couleur de fond de la cellule
+                                                                    # couleur de fond de la cellule
+                                                                    set_shade_cell(cell, ech.valeurs[z].couleur)
                                                 except:
                                                     if thor["debug"]:  # si mode debug activ" # si mode debug activ"
                                                         sys.exc_info()[0]  # On affiche l'erreur
@@ -564,11 +573,15 @@ def generate_rapport(config, context, log, thor):
                     elif tab["type"] == "image":  # si image
                         if doc.tables[x].cell(0, 0).text == tab["keyWord"]:  # Si la cellule [0,0] de la table correspond
                             if config[tabkey] != '':  # si le fichier excel est renseigné
-                                remove_row(doc.tables[x], doc.tables[x].rows[tab["enteteWord"]])  # effacement de l'ancienne illustration
+                                # effacement de l'ancienne illustration
+                                remove_row(doc.tables[x], doc.tables[x].rows[tab["enteteWord"]])
                                 doc.tables[x].add_row()  # ajout d'une ligne vierge dans le tableau word
                                 doc.tables[x].cell(0, 1).paragraphs[0].add_run()  # ajout d'un run pour contenir l'image
-                                doc.tables[x].cell(0, 1).paragraphs[0].runs[0].add_picture(config[tabkey], height=Cm(tab["height"]))  # ajout de l'image
-                                modifytableborders(doc.tables[x], tab["style"]["borderWidth"], tab["style"]["borderColor"])  # style des birdures
+                                # ajout de l'image
+                                doc.tables[x].cell(0, 1).paragraphs[0].runs[0].add_picture(config[tabkey],
+                                                                                           height=Cm(tab["height"]))
+                                modifytableborders(doc.tables[x], tab["style"]["borderWidth"],
+                                                   tab["style"]["borderColor"])  # style des birdures
                                 if "alignment" in tab["style"]:  # si l'on a preciser l'alignement du texte pour la colonne
                                     align = tab["style"]["alignment"]  # recupereation de l'alignement
                                     for p in doc.tables[x].cell(0, 1).paragraphs:  # pour chaque paragraph de la cellule word
