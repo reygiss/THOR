@@ -1,0 +1,5 @@
+python-docx
+xlrd
+colorama
+pyyaml
+docxtpl
