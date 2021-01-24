@@ -485,16 +485,13 @@ def launch_rapport(config, log, thor):
 
 def check_config(config):
     if config["Config_file"].get() == "":
-        messagebox.showerror(title="alert", message=
-        "le fichier de configuration n'est pas renseigné")
+        messagebox.showerror(title="alert", message="le fichier de configuration n'est pas renseigné")
         return False
     if config["Rapport_input"].get() == "":
-        messagebox.showerror(title="alert", message=
-        "le fichier Word d'entrée n'est pas renseigné")
+        messagebox.showerror(title="alert", message="le fichier Word d'entrée n'est pas renseigné")
         return False
     if config["Rapport_output"].get() == "":
-        messagebox.showerror(title="alert", message=
-        "le fichier Word de sortie n'est pas renseigné")
+        messagebox.showerror(title="alert", message="le fichier Word de sortie n'est pas renseigné")
         return False
     return True
 
@@ -587,7 +584,7 @@ def initwin():
     numpart = 0
     numrow = 0  # identification d'une ligne au sein d'un atelier
     ###############################################################
-    numrow = 0  # positionnement au debut de l'atelier
+
     # creation d'un atelier journalisation
     journaux = newlabelframe(scrollable_frame, "Journalisation", bold)
     # Création d'un champ texte qui contiendra les journaux
@@ -599,6 +596,7 @@ def initwin():
     # les journaux seront positionnés en bas de la fenetre, donc le positionnement
     # de l'atelier se fera en dernier
     ###############################################################
+    numrow = 0  # positionnement au debut de l'atelier
     newlabeltitle(scrollable_frame,
                   'THOR v' + str(thor["version"]) +
                   ' – Traitement Hybride pour l’Optimisation du Rapport', bold).grid(
@@ -614,6 +612,7 @@ def initwin():
 
     ###############################################################
     # Premiere partie, les options concernant le script
+    numrow = 0  # positionnement au debut de l'atelier
     rapport = newlabelframe(scrollable_frame, "Rapport", bold)
 
     newlabel(rapport, 'Document Word en entrée: ', bold).grid(
@@ -662,7 +661,7 @@ def initwin():
     numpart = numpart + 1
 
     ###############################################################
-    numrow = 0
+    numrow = 0  # positionnement au debut de l'atelier
 
     for partie in ["echelles", "tableaux"]:  # niveau 1
         for atelierkey, atelier in thor[partie].items():  # niveau 2
@@ -762,6 +761,7 @@ def initwin():
             numpart = numpart + 1  # ligne suivante sur la grille principale
 
     ###############################################################
+    numrow = 0  # positionnement au debut de l'atelier
     # positionnement du bouton pour générer le rapport
     Button(scrollable_frame,
            text=' Generate',
