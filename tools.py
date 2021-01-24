@@ -7,6 +7,7 @@ import sys
 import os
 from tkinter import END
 
+
 ###################################################################
 # Suppression d'une table dans le document word
 # INPUT : la table à supprimer
@@ -17,6 +18,7 @@ def delete_table(old_table):
     parent.remove(old_table)  # suppression de la table
     old_table._element = None  # libération mémoire
 
+
 ###################################################################
 # Suppression d'un paragraph dans le document word
 # INPUT : Le paragraph a supprimé
@@ -26,6 +28,7 @@ def delete_paragraph(paragraph):
     p = paragraph._element
     p.getparent().remove(p)
     paragraph._p = paragraph._element = None
+
 
 ###################################################################
 # Indentation d'une table dans la page
@@ -42,6 +45,7 @@ def indent_table(table, indent):
         e.set(qn('w:type'), 'dxa')  # type de l'indentation
         tbl_pr[0].append(e)  # ajout de l'elment XML à celui de la table
 
+
 ###################################################################
 # Cette fonction permet d'appliquer une couleur de fond à une cellule sous word
 # INPUT: cell : Cellule du tableau
@@ -53,6 +57,7 @@ def set_shade_cell(cell, shade):
     tcvalign = OxmlElement("w:shd")  # création d'un élément XML pour le background
     tcvalign.set(qn("w:fill"), shade)  # set de la valeur de la vcouleur de fond
     tcpr.append(tcvalign)  # ajout de l'élement XML à la cellule
+
 
 ###################################################################
 # Cette fonction permet de lire une couleur de fond à une cellule sous word
@@ -68,6 +73,7 @@ def get_shade_cell(cell):
     else:
         return ""
 
+
 ###################################################################
 # Suppression d'une ligne de tableau word
 # INPUT : table : table du document word
@@ -79,6 +85,7 @@ def remove_row(table, row):
     tr = row._tr  # récupération de la ligne
     tbl.remove(tr)  # suppression de la ligne dans la table
     row = tr = None  # libération mémoire
+
 
 ###################################################################
 # chargement d'une echelle fixe a partir d'un fichier excel
@@ -106,7 +113,10 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
         maxrow = sheet.nrows  # Nombre de lignes dans le fichier Excel
         for x in range(nbentete, maxrow):
             rgb = sheet.cell_value(x, 3).split(',')
-            echelle.append(EchelleFixe(sheet.cell_value(x, 2), "#"+str(RGBColor(int(rgb[0]), int(rgb[1]), int(rgb[2])))))
+            echelle.append(EchelleFixe(sheet.cell_value(x, 2),
+                                       "#" + str(RGBColor(int(rgb[0]),
+                                                          int(rgb[1]),
+                                                          int(rgb[2])))))
         return echelle
     except:
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
@@ -115,6 +125,7 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
         else:
             log.insert(END, "\nERROR : Erreur à l'import de la legende " + excel)
             return echelle
+
 
 ###################################################################
 # chargement d'une echelle calculée a partir d'un fichier excel
@@ -140,14 +151,15 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
             return echelle
     try:
         # récupération de la taille du tableau, les fonctions max_row et
-       # max_col retourne des valeurs éronnées
+        # max_col retourne des valeurs éronnées
         maxrow = sheet.nrows  # Nombre de lignes dans le fichier Excel
         for x in range(nbentete, maxrow):
             rgb = sheet.cell_value(x, 3).split(',')
             echelle.append(EchelleCalculee(sheet.cell_value(x, 1),
-                           sheet.cell_value(x, 2),
-                           "#"+str(RGBColor(int(rgb[0]),
-                            int(rgb[1]), int(rgb[2])))))
+                                           sheet.cell_value(x, 2),
+                                           "#" + str(RGBColor(int(rgb[0]),
+                                                              int(rgb[1]),
+                                                              int(rgb[2])))))
         return echelle
     except:
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
@@ -156,6 +168,7 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
         else:
             log.insert(END, "\nERROR : Erreur \
             à l'import de la legende " + excel)
+
 
 ###################################################################
 # cette fonction permet de copier un tableau de la feuille
@@ -178,7 +191,7 @@ def copy_table(doc, index, tab, thor, excel, log):
     # Get Excel
     try:
         wb = xlrd.open_workbook(excel, formatting_info=True)  # ouverture du fichier Excel
-        sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichie Excel
+        sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichier Excel
     except:
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             sys.exc_info()[0]  # On affiche l'erreur
@@ -203,7 +216,7 @@ def copy_table(doc, index, tab, thor, excel, log):
         # Remplissage du tableau word avec les valeurs de l'Excel
         # Calcul de l'écart entre l'entete word et Excel
         # pour calculer les difference de numéro de ligne
-        ecart = nbenteteword-nbenteteexcel
+        ecart = nbenteteword - nbenteteexcel
         # Pour chaque ligne du fichier Excel, sauf entete
         for x in range(nbenteteexcel, maxrow):
             r = table.add_row()  # on ajoute une ligne dans le tableau word
@@ -214,9 +227,6 @@ def copy_table(doc, index, tab, thor, excel, log):
             # donc il y a une différence de 1 entre le
             # numéro de la colonne word et celle Excel
             for y in range(1, maxcol):
-                # On recopie la valeur de la cellule et on remplace
-                # les retour à la ligne par des sauts de ligne
-                lignes = sheet.cell_value(x, y)
                 # type 0 = cellule vide, si la cellule n'est pas vide
                 if sheet.cell_type(x, y) > 0:
                     # On recopie la valeur de la cellule
@@ -229,26 +239,26 @@ def copy_table(doc, index, tab, thor, excel, log):
                         segments = []
                         for segment_idx in range(len(text_cell_runlist)):  # liste des segments
                             start = text_cell_runlist[segment_idx][0]  # debut du segmment
-                          # the last segment starts at given 'start'
-                          # and ends at the end of the string
+                            # the last segment starts at given 'start'
+                            # and ends at the end of the string
                             end = None
                             if segment_idx != len(text_cell_runlist) - 1:  # si pas dernier segment
                                 end = text_cell_runlist[segment_idx + 1][0]
                                 segment_text = text_cell[start:end]  # text du segment
                                 segments.append({  # On ajoute le segment
-                                                'text': segment_text,  # Text du segement
-                                                'font': wb.font_list[text_cell_runlist[segment_idx][1]]  # style su segment
-                                                })
+                                    'text': segment_text,  # Text du segement
+                                    'font': wb.font_list[text_cell_runlist[segment_idx][1]]  # style su segment
+                                })
                         # segments did not start at beginning, assume cell
                         # starts with text styled as the cell
                         if text_cell_runlist[0][0] != 0:
                             segments.insert(0, {
-                                            'text': text_cell[:text_cell_runlist[0][0]],
-                                            'font': wb.font_list[text_cell_xf.font_index]
-                                            })
+                                'text': text_cell[:text_cell_runlist[0][0]],
+                                'font': wb.font_list[text_cell_xf.font_index]
+                            })
 
                         # On récupère le paragraph sous Word
-                        p = table.cell(x+ecart, y-1).paragraphs[0]
+                        p = table.cell(x + ecart, y - 1).paragraphs[0]
                         for segment in segments:  # Pour chaque segment
                             r = p.add_run()  # On ajoute un run à word
                             # On colle la valeur dans la cellule
@@ -269,7 +279,7 @@ def copy_table(doc, index, tab, thor, excel, log):
                                 if color:
                                     r.font.color.rgb = RGBColor(color[0], color[1], color[2])
                     else:  # La cellule n'a qu'un style simple
-                        p = table.cell(x+ecart, y-1).paragraphs[0]
+                        p = table.cell(x + ecart, y - 1).paragraphs[0]
                         r = p.add_run()
                         r.text = text_cell
                         # si italique
@@ -282,25 +292,24 @@ def copy_table(doc, index, tab, thor, excel, log):
                             r.font.bold = True
                         if wb.font_list[text_cell_xf.font_index].colour_index:  # Si couleur de police
                             color = wb.colour_map.get(
-                                    wb.font_list[text_cell_xf.font_index]
-                                    .colour_index)
+                                wb.font_list[text_cell_xf.font_index].colour_index)
                             if color:
                                 r.font.color.rgb = RGBColor(color[0], color[1], color[2])
                     # conversion des retour à la ligne en paragraphs
-                    for p in table.cell(x+ecart, y-1).paragraphs:  # Pour chaque paragraphs de la cellule
-                        p2 = table.cell(x+ecart, y-1).add_paragraph()
+                    for p in table.cell(x + ecart, y - 1).paragraphs:  # Pour chaque paragraphs de la cellule
+                        p2 = table.cell(x + ecart, y - 1).add_paragraph()
                         for r in p.runs:
                             lignes = r.text.split('\n')
                             if len(lignes) > 1:
                                 for l in lignes:
-                                    p2 = table.cell(x+ecart, y-1).add_paragraph()
+                                    p2 = table.cell(x + ecart, y - 1).add_paragraph()
                                     add_run_copy(p2, r, l)
                             else:
                                 add_run_copy(p2, r)
                         delete_paragraph(p)
                     # Nettoyage finale, suppression des paragraphs
                     # vides et application du style
-                    for p in table.cell(x+ecart, y-1).paragraphs:
+                    for p in table.cell(x + ecart, y - 1).paragraphs:
                         if p.text == '' or p.text == ' ':
                             delete_paragraph(p)
                         else:
@@ -311,37 +320,37 @@ def copy_table(doc, index, tab, thor, excel, log):
                             p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
                     # il faut au moins 1 paragraph par cellule sinon erreur
-                    if len(table.cell(x+ecart, y-1).paragraphs) < 1:
-                        table.cell(x+ecart, y-1).add_paragraph()
+                    if len(table.cell(x + ecart, y - 1).paragraphs) < 1:
+                        table.cell(x + ecart, y - 1).add_paragraph()
 
         # On recherche les cellules fusionnées dans le tableau Excel
         for items in sheet.merged_cells:  # Pour chaque zone fusionnée
             # on récupére les coordonnées en haut à gauche et
             # en bas à droite (rowLow,rowHigh,colLow,colHigh)
             rlo, rhi, clo, chi = items
-            #on saute les entetes qui pourraient etre fusionnées
+            # on saute les entetes qui pourraient etre fusionnées
             if rlo >= nbenteteexcel:
-               # on fusionne les cellules dans le tableau word en faisant
-               # correspondre les numéro de ligne et de colonne
-               # cf doc xlrd pour la limite superieure de mergedcell,
-               # il faut -1 afin d'avoir la bonne valeur dans
-               # word et on ignore la premiere colonne
-              # d'excel donc -1 supplémentaire pour la colonne dans word
-                table.cell(rlo+ecart, clo-1).merge(table.cell(rhi-1+ecart, chi-2))
+                # on fusionne les cellules dans le tableau word en faisant
+                # correspondre les numéro de ligne et de colonne
+                # cf doc xlrd pour la limite superieure de mergedcell,
+                # il faut -1 afin d'avoir la bonne valeur dans
+                # word et on ignore la premiere colonne
+                # d'excel donc -1 supplémentaire pour la colonne dans word
+                table.cell(rlo + ecart, clo - 1).merge(table.cell(rhi - 1 + ecart, chi - 2))
         log.insert(END, "\ntableau du fichier Excel " + os.path.basename(
-                excel) + " copié")
+            excel) + " copié")
         return 0
     except:
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
         else:
-            log.insert(END, "\nERROR : Erreur à la copie \
-            du tableau du fichier Excel " + os.path.basename(
-                    excel) + " dans le tableau "+tab["keyWord"]+". \
-                    Merci de vérifier que les formats des tableaux Word et \
-                    Excel soient identiques")
+            log.insert(END, "\nERROR : Erreur à la copie du tableau du fichier Excel " + os.path.basename(
+                excel) + " dans le tableau " + tab[
+                           "keyWord"] + ". Merci de vérifier que les formats des tableaux Word et Excel soient "
+                                        "identiques")
             return 1
+
 
 ###################################################################
 # Copy du style d'un run vers un nouveau run
@@ -388,6 +397,7 @@ def add_run_copy(paragraph, run, text=None):
     r.font.color.rgb = run.font.color.rgb
     return r
 
+
 ###################################################################
 # Modification du style des bordures des cellules dans le tableau word
 # INPUT : table : tableau word
@@ -395,7 +405,6 @@ def add_run_copy(paragraph, run, text=None):
 
 
 def modifytableborders(table, width, color):
-
     tbl = table._tbl  # récupération de l'élément XML correspondant à la table
     for cell in tbl.iter_tcs():  # Pour cahque cellule de la table
         tcpr = cell.tcPr  # récupération de l'élément XML tcpr de la cellule
@@ -410,6 +419,7 @@ def modifytableborders(table, width, color):
             tcborders.append(element)  # ajout de l'élément à l'élément XML borders
         tcpr.append(tcborders)  # Ajout de l'élément XML BORDERS à la cellule
 
+
 ###################################################################
 # class permettant de stocker une echelle dans un tableau
 
@@ -418,6 +428,7 @@ class EchelleFixe:
     def __init__(self, nom, couleur):
         self.nom = nom  # valeur de comparaison de l'echelle
         self.couleur = couleur  # couleur associée à la valeur de l'echelle
+
 
 ###################################################################
 # Classe permetant de stocker les parametre pour une echelle calculée
@@ -428,6 +439,7 @@ class EchelleCalculee:
         self.nom = nom  # valeur de comparaison de l'echelle
         self.seuil = seuil  # seuil de déclenchement de l'echelle
         self.couleur = couleur  # couleur associée au seuil de l'echelle
+
 
 ###################################################################
 # Classe permetant de definir une echelle
@@ -448,7 +460,8 @@ class Echelle:
                 raise  # levée de l'erreur
             else:
                 log.insert(END, "\nWarning : La configuration de la \
-                legende '"+echkey+"' n'est pas conforme")
+                legende '" + echkey + "' n'est pas conforme")
+
 
 ###################################################################
 # class permettant de récupérer la liste des scenarios stratégiques
@@ -458,6 +471,8 @@ class ScenarioStrategique:
     def __init__(self, ref, nom):
         self.ref = ref
         self.nom = nom
+
+
 ###################################################################
 # Generationn du rapport
 # INPUT : le tableau contenant tous les parametres pour la génération du script
@@ -474,13 +489,13 @@ def generate_rapport(config, context, log, thor):
         if config["Rapport_input"] != '':
             doc = DocxTemplate(config["Rapport_input"])  # si le document word est renseigné
         else:
-            doc = DocxTemplate(swd+"/modele/modele.docx")  # sinon on prend le modele par défaut
+            doc = DocxTemplate(swd + "/modele/modele.docx")  # sinon on prend le modele par défaut
     except:
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
         else:
-            log.insert(END, "\nERROR : le document word '"+config["Rapport_input"]+"' \
+            log.insert(END, "\nERROR : le document word '" + config["Rapport_input"] + "' \
             ne peut pas etre ouvert")
             raise
 
@@ -494,9 +509,9 @@ def generate_rapport(config, context, log, thor):
                     nbentete = ech["enteteExcel"]  # nombre de ligne d'entete du fichier excel
                     # chargement de l'echelle
                     echelle[echkey] = Echelle(echkey, ech["methode"], excel, sheet, nbentete, log, thor)
-                    log.insert(END, "\nechelle fixe "+echkey+" copiée")
+                    log.insert(END, "\nechelle fixe " + echkey + " copiée")
                 else:
-                    log.insert(END, "\nWARNING: La légende "+echkey+" a été ignorée")
+                    log.insert(END, "\nWARNING: La légende " + echkey + " a été ignorée")
     doc.render(context)
     # Recherche des table à copier lors d'une lecture du document word.
     for x in range(0, len(doc.tables)):  # Pour chaque table
@@ -526,7 +541,7 @@ def generate_rapport(config, context, log, thor):
                                                        len(doc.tables[x].rows)):
                                             # cellule de la 6éme colonne
                                             cell = doc.tables[x].cell(y, int(colKey))
-                                           # si l'on a spécifier une echelle pour la colonnne
+                                            # si l'on a spécifier une echelle pour la colonnne
                                             if "echelle" in col:
                                                 # nom de l'echelle à utiliser
                                                 nom = col["echelle"]
@@ -538,12 +553,14 @@ def generate_rapport(config, context, log, thor):
                                                         for z in range(0, len(ech.valeurs)):
                                                             # si c'est une echelle fixe
                                                             if ech.methode == "fixe":
-                                                                # si le texte de la cellule correspond à la valeur de l'echelle
+                                                                # si le texte de la cellule correspond à la valeur de
+                                                                # l'echelle
                                                                 if ech.valeurs[z].nom == cell.text:
                                                                     # couleur de fond de la troisieme colonne à partir
                                                                     # de la premiere lettre du contenu de la cellule
                                                                     set_shade_cell(cell, ech.valeurs[z].couleur)
-                                                            elif ech.methode == "calculée":  # si c'est une echelle calculée
+                                                            elif ech.methode == "calculée":  # si c'est une echelle
+                                                                # calculée
                                                                 # si le seuil correspond
                                                                 if float(cell.text[0:3]) >= float(ech.valeurs[z].seuil):
                                                                     # couleur de fond de la cellule
@@ -553,8 +570,10 @@ def generate_rapport(config, context, log, thor):
                                                         sys.exc_info()[0]  # On affiche l'erreur
                                                         raise  # levée de l'erreur
                                                     else:
-                                                        log.insert(END, "\nWARNING: La légende "+nom+" est incorrecte")
-                                            if "alignment" in col:  # si l'on a preciser l'alignement du texte pour la colonne
+                                                        log.insert(END,
+                                                                   "\nWARNING: La légende " + nom + " est incorrecte")
+                                            if "alignment" in col:  # si l'on a preciser l'alignement du texte pour
+                                                # la colonne
                                                 align = col["alignment"]  # recupereation de l'alignement
                                                 for p in cell.paragraphs:  # pour chaque paragraph de la cellule word
                                                     if align == "center":
@@ -565,13 +584,18 @@ def generate_rapport(config, context, log, thor):
                                                         p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
                                                     else:
                                                         p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                                            if "backgroundColor" in col:  # si l'on a preciser la couleur de fond pour la colonne
-                                                couleur = col["backgroundColor"]  # récupération de la couleur au format hexadecimal
-                                                set_shade_cell(cell, couleur)  # on applique la couleur de fond à la cellulle
+                                            if "backgroundColor" in col:  # si l'on a preciser la couleur de fond
+                                                # pour la colonne
+                                                couleur = col[
+                                                    "backgroundColor"]  # récupération de la couleur au format
+                                                # hexadecimal
+                                                set_shade_cell(cell,
+                                                               couleur)  # on applique la couleur de fond à la cellulle
                             else:
-                                log.insert(END, "\nWARNING : tableau "+tab["keyWord"]+" de l’écosystème ignoré")
+                                log.insert(END, "\nWARNING : tableau " + tab["keyWord"] + " de l’écosystème ignoré")
                     elif tab["type"] == "image":  # si image
-                        if doc.tables[x].cell(0, 0).text == tab["keyWord"]:  # Si la cellule [0,0] de la table correspond
+                        # Si la cellule [0,0] de la table correspond
+                        if doc.tables[x].cell(0, 0).text == tab["keyWord"]:
                             if config[tabkey] != '':  # si le fichier excel est renseigné
                                 # effacement de l'ancienne illustration
                                 remove_row(doc.tables[x], doc.tables[x].rows[tab["enteteWord"]])
@@ -582,9 +606,12 @@ def generate_rapport(config, context, log, thor):
                                                                                            height=Cm(tab["height"]))
                                 modifytableborders(doc.tables[x], tab["style"]["borderWidth"],
                                                    tab["style"]["borderColor"])  # style des birdures
-                                if "alignment" in tab["style"]:  # si l'on a preciser l'alignement du texte pour la colonne
+                                # si l'on a preciser l'alignement du texte pour la colonne
+                                if "alignment" in tab["style"]:
                                     align = tab["style"]["alignment"]  # recupereation de l'alignement
-                                    for p in doc.tables[x].cell(0, 1).paragraphs:  # pour chaque paragraph de la cellule word
+                                    # pour chaque paragraph de la cellule word
+                                    for p in doc.tables[x].cell(0,
+                                                                1).paragraphs:
                                         if align == "center":
                                             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                                         elif align == 'left':
@@ -602,5 +629,5 @@ def generate_rapport(config, context, log, thor):
             raise  # levée de l'erreur
         else:
             log.insert(END, "\nERROR : la sauvegarde du rapport à échouée")
-            nberror = nberror+1
+            nberror = nberror + 1
     return nberror
