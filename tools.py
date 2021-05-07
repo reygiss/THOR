@@ -179,6 +179,7 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
 # INPUT : nbenteteexcel : nombre de ligne dans l'entete de la table dans excel
 # INPUT : excel : Nom du fichier Excel
 # INPUT : sheet : nom de la feuille dans Excel
+# INPUT : nbColonnesIgnorees: nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
 # INPUT : log : pointeur sur a fenetre de journalisation
 
 
@@ -186,6 +187,7 @@ def copy_table(doc, index, tab, thor, excel, log):
     nbenteteword = tab["enteteWord"]
     nbenteteexcel = tab["enteteExcel"]
     sheet = tab["feuilleExcel"]
+    nbcolonnesignorees = tab["nbColonnesIgnorees"]
     textstyle = tab['style']['textStyle']
     table = doc.tables[index]  # Récupération de la table dans le document Word
     # Get Excel
@@ -226,7 +228,7 @@ def copy_table(doc, index, tab, thor, excel, log):
             # contient les numéro de ligne, sinon pour chaque colonne,
             # donc il y a une différence de 1 entre le
             # numéro de la colonne word et celle Excel
-            for y in range(1, maxcol):
+            for y in range(nbcolonnesignorees, maxcol):
                 # type 0 = cellule vide, si la cellule n'est pas vide
                 if sheet.cell_type(x, y) > 0:
                     # On recopie la valeur de la cellule
@@ -258,7 +260,7 @@ def copy_table(doc, index, tab, thor, excel, log):
                             })
 
                         # On récupère le paragraph sous Word
-                        p = table.cell(x + ecart, y - 1).paragraphs[0]
+                        p = table.cell(x + ecart, y - nbcolonnesignorees).paragraphs[0]
                         for segment in segments:  # Pour chaque segment
                             r = p.add_run()  # On ajoute un run à word
                             # On colle la valeur dans la cellule

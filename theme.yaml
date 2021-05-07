@@ -1,5 +1,5 @@
 version: 3.2
-debug: false
+debug: true
 modeles:
     Scénario_stratégique: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
         type: "generique"
@@ -9,6 +9,7 @@ modeles:
         keyWord: "Scénario stratégique {{ sc }}" # Clé d'identification du tableau dans Word => {{ sc }} = indice du scenario
         enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
         feuilleExcel: "Sheet1" #Nom de la feuille Excel
+        nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
         style:
             borderWidth: 12 # epaisseur de la bordure en pt
             borderColor: "#000000" # epaisseur de la bordure en pt
@@ -44,6 +45,7 @@ echelles:
                 label: "Echelle de gravité : "
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 methode: "fixe"
             pertinence:
                 type: "file"
@@ -51,6 +53,7 @@ echelles:
                 label: "Echelle de pertinence : "
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 methode: "fixe"
             menace:
                 type: "file"
@@ -58,6 +61,7 @@ echelles:
                 label: "Echelle de menace : "
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 methode: "calculée"
 tableaux:
     "Atelier 1":
@@ -70,6 +74,7 @@ tableaux:
                 keyWord: "Valeurs Métiers" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -82,6 +87,8 @@ tableaux:
                 keyWord: "Biens supports" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
+
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -94,6 +101,7 @@ tableaux:
                 keyWord: "Synthèse du périmètre métier et technique" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#FFFFFF" # epaisseur de la bordure en pt
@@ -122,6 +130,7 @@ tableaux:
                 keyWord: "Evénements redoutés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -138,6 +147,7 @@ tableaux:
                 keyWord: "Besoins de sécurité" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -156,6 +166,7 @@ tableaux:
                 keyWord: "Sources de risques" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt   
@@ -168,6 +179,7 @@ tableaux:
                 keyWord: "Objectifs visés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt 
@@ -180,6 +192,7 @@ tableaux:
                 keyWord: "Couples sources et objectifs visés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt 
@@ -198,6 +211,7 @@ tableaux:
                 keyWord: "Description des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -210,6 +224,7 @@ tableaux:
                 keyWord: "Evaluation des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -241,6 +256,7 @@ tableaux:
                 keyWord: "Scénarios stratégiques retenus" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -257,6 +273,7 @@ tableaux:
                 keyWord: "Mesures de sécurité de l’écosystème" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -269,6 +286,7 @@ tableaux:
                 keyWord: "Evaluation de la menace résiduelle des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -299,6 +317,7 @@ tableaux:
                 keyWord: "Mesures de sécurité" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -311,6 +330,7 @@ tableaux:
                 keyWord: "Plan d’Amélioration Continue de la Sécurité" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
