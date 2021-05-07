@@ -281,7 +281,7 @@ def copy_table(doc, index, tab, thor, excel, log):
                                 if color:
                                     r.font.color.rgb = RGBColor(color[0], color[1], color[2])
                     else:  # La cellule n'a qu'un style simple
-                        p = table.cell(x + ecart, y - 1).paragraphs[0]
+                        p = table.cell(x + ecart, y - nbcolonnesignorees).paragraphs[0]
                         r = p.add_run()
                         r.text = text_cell
                         # si italique
@@ -298,20 +298,21 @@ def copy_table(doc, index, tab, thor, excel, log):
                             if color:
                                 r.font.color.rgb = RGBColor(color[0], color[1], color[2])
                     # conversion des retour à la ligne en paragraphs
-                    for p in table.cell(x + ecart, y - 1).paragraphs:  # Pour chaque paragraphs de la cellule
-                        p2 = table.cell(x + ecart, y - 1).add_paragraph()
+                    # Pour chaque paragraphs de la cellule
+                    for p in table.cell(x + ecart, y - nbcolonnesignorees).paragraphs:
+                        p2 = table.cell(x + ecart, y - nbcolonnesignorees).add_paragraph()
                         for r in p.runs:
                             lignes = r.text.split('\n')
                             if len(lignes) > 1:
                                 for l in lignes:
-                                    p2 = table.cell(x + ecart, y - 1).add_paragraph()
+                                    p2 = table.cell(x + ecart, y - nbcolonnesignorees).add_paragraph()
                                     add_run_copy(p2, r, l)
                             else:
                                 add_run_copy(p2, r)
                         delete_paragraph(p)
                     # Nettoyage finale, suppression des paragraphs
                     # vides et application du style
-                    for p in table.cell(x + ecart, y - 1).paragraphs:
+                    for p in table.cell(x + ecart, y - nbcolonnesignorees).paragraphs:
                         if p.text == '' or p.text == ' ':
                             delete_paragraph(p)
                         else:
@@ -322,8 +323,8 @@ def copy_table(doc, index, tab, thor, excel, log):
                             p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
                     # il faut au moins 1 paragraph par cellule sinon erreur
-                    if len(table.cell(x + ecart, y - 1).paragraphs) < 1:
-                        table.cell(x + ecart, y - 1).add_paragraph()
+                    if len(table.cell(x + ecart, y - nbcolonnesignorees).paragraphs) < 1:
+                        table.cell(x + ecart, y - nbcolonnesignorees).add_paragraph()
 
         # On recherche les cellules fusionnées dans le tableau Excel
         for items in sheet.merged_cells:  # Pour chaque zone fusionnée
