@@ -1,4 +1,4 @@
-version: 3.2
+version: 3.3
 debug: true
 modeles:
     Scénario_stratégique: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
