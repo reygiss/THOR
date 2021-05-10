@@ -1,7 +1,9 @@
-version: 3.3
+version: 3.4
 debug: true
+nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer dans les fichiers Excel, 0 par défaut
 modeles:
     Scénario_stratégique: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
+        tooltip: "emplacement du fichier Excel contenant le scenario stratégique"
         type: "generique"
         extension: "xls"
         label: "Scénario stratégique {{ sc }} : " # {{ sc }} = indice du scenario
@@ -9,12 +11,12 @@ modeles:
         keyWord: "Scénario stratégique {{ sc }}" # Clé d'identification du tableau dans Word => {{ sc }} = indice du scenario
         enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
         feuilleExcel: "Sheet1" #Nom de la feuille Excel
-        nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
         style:
             borderWidth: 12 # epaisseur de la bordure en pt
             borderColor: "#000000" # epaisseur de la bordure en pt
             textStyle: 'Body Text'
     Image_scénario_stratégique: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
+        tooltip: "emplacement de l'image JPG contenant le scenario stratégique"
         type: "generique"
         extension: "jpg"
         height: 14 # width en cm
@@ -26,6 +28,7 @@ modeles:
             borderColor: "#000000" # epaisseur de la bordure en pt
             alignment: center
     Image_scénario_opérationnel: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
+        tooltip: "emplacement de l'image JPG contenant le scenario opérationnel"
         type: "generique"
         extension: "jpg"
         height: 14 # width en cm
@@ -40,33 +43,34 @@ echelles:
     "Echelles de valeurs":
         'Définir les echelles de valeurs':
             gravite:
+                tooltip: "emplacement du fichier Excel de l'echelle de gravité"
                 type: "file"
                 extension: "xls"
                 label: "Echelle de gravité : "
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 methode: "fixe"
             pertinence:
+                tooltip: "emplacement du fichier Excel de l'echelle de pertinence"
                 type: "file"
                 extension: "xls"
                 label: "Echelle de pertinence : "
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 methode: "fixe"
             menace:
+                tooltip: "emplacement du fichier Excel de l'echelle de menace"
                 type: "file"
                 extension: "xls"
                 label: "Echelle de menace : "
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 methode: "calculée"
 tableaux:
     "Atelier 1":
         'Définir le Périmètre Métier et Technique':
             Valeurs_Metiers:
+                tooltip: "emplacement du fichier Excel des valeurs métier"
                 type: "file"
                 extension: "xls"
                 label: 'Base de Valeurs Métiers : '
@@ -74,12 +78,12 @@ tableaux:
                 keyWord: "Valeurs Métiers" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text'
             Biens_Supports:
+                tooltip: "emplacement du fichier Excel des biens supports"
                 type: "file"
                 extension: "xls"
                 label: 'Base de Biens Supports : '
@@ -87,13 +91,13 @@ tableaux:
                 keyWord: "Biens supports" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
 
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text'
             Synthese_perimetre_metier_et_technique:
+                tooltip: "emplacement du fichier Excel de la synthese du périmètre métier"
                 type: "file"
                 extension: "xls"
                 label: 'Identifier les Missions : '
@@ -101,7 +105,6 @@ tableaux:
                 keyWord: "Synthèse du périmètre métier et technique" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#FFFFFF" # epaisseur de la bordure en pt
@@ -123,6 +126,7 @@ tableaux:
                             backgroundColor: "#8DB3E2" #couleur de fond de la colonne
         'Identifier les Événements Redoutés':
             evenements_Redoutes:
+                tooltip: "emplacement du fichier Excel des événements redoutés"
                 type: "file"
                 extension: "xls"
                 label: 'Événements Redoutés (part 1) => Description : '
@@ -130,7 +134,6 @@ tableaux:
                 keyWord: "Evénements redoutés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -140,6 +143,7 @@ tableaux:
                             echelle: "gravite" # nom de la echelle
                             alignment: center #alignement du texte dans la colonne
             Besoins_Securite:
+                tooltip: "emplacement du fichier Excel des besoins de sécurité"
                 type: "file"
                 extension: "xls"
                 label : 'Événements Redoutés (part 2) => Besoins de Sécurité: '
@@ -147,7 +151,6 @@ tableaux:
                 keyWord: "Besoins de sécurité" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -159,6 +162,7 @@ tableaux:
     "Atelier 2":
         'Identifier les Sources de Risque et leurs Objectifs Visés':
             Sources_Risques:
+                tooltip: "emplacement du fichier Excel des sources de risques"
                 type: "file"
                 extension: "xls"
                 label: 'Base des Sources de Risques : '
@@ -166,12 +170,12 @@ tableaux:
                 keyWord: "Sources de risques" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt   
                     textStyle: 'Body Text'
             Objectifs_vises:
+                tooltip: "emplacement du fichier Excel des objectifs visés"
                 type: "file"
                 extension: "xls"
                 label: 'Base des Objectifs Visés : '
@@ -179,12 +183,12 @@ tableaux:
                 keyWord: "Objectifs visés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt 
                     textStyle: 'Body Text'                    
             SROV:
+                tooltip: "emplacement du fichier Excel des SROV"
                 type: "file"
                 extension: "xls"
                 label: 'Évaluer des Couples SROV : '
@@ -192,7 +196,6 @@ tableaux:
                 keyWord: "Couples sources et objectifs visés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt 
@@ -204,6 +207,7 @@ tableaux:
     "Atelier 3":
         "Construire la Cartographie de Menaces de l'Écosystème":
             Description_parties_prenantes:
+                tooltip: "emplacement du fichier Excel contenant la description des parties prenantes"
                 type: "file"
                 extension: "xls"
                 label: 'Base des Parties Prenantes : '
@@ -211,12 +215,12 @@ tableaux:
                 keyWord: "Description des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text' 
             evaluation_Parties_prenantes:
+                tooltip: "emplacement du fichier Excel contenant l'évaluation des partie prenantes"
                 type: "file"
                 extension: "xls"
                 label: 'Évaluer la menace : '
@@ -224,7 +228,6 @@ tableaux:
                 keyWord: "Evaluation des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -237,6 +240,7 @@ tableaux:
                         8:
                             echelle: "menace" # nom de la echelle
             Representation_menace_numerique_ecosysteme:
+                tooltip: "emplacement de l'image JPG contenant la représentation numérique de l'écosystème"
                 type: "image"
                 extension: "jpg"
                 label: "Cartographie de la menace numérique : "
@@ -249,6 +253,7 @@ tableaux:
                     alignment: center
         'Élaborer les Scénarios Stratégiques':
             Scénarios_stratégiques_retenus:
+                tooltip: "emplacement du fichier Excel contenant la synthése des scénarios stratégiques"
                 type: "file"
                 extension: "xls"
                 label: 'Afficher la Synthèse : '
@@ -256,16 +261,17 @@ tableaux:
                 keyWord: "Scénarios stratégiques retenus" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text'
-            nbScenariosStrategiques: 
+            nbScenariosStrategiques:
+                tooltip: "nombre de scénarios stratégiques retenus"
                 type: "scénariosStrategiques" # permet d'identifier les scenarios strategiques
                 label: "Nombre de scénarios stratégique" # label
         "Définir les Mesures de Sécurité sur l'Écosystème":
             Mesures_securite_ecosysteme:
+                tooltip: "emplacement du fichier Excel contenant les mesures de sécurité de l'écosystème"
                 type: "file"
                 extension: "xls"
                 label: 'Identifier les Mesures de Sécurité part 1 => Description : '
@@ -273,12 +279,12 @@ tableaux:
                 keyWord: "Mesures de sécurité de l’écosystème" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text' 
             Evaluation_menace_résiduelle_parties_prenantes:
+                tooltip: "emplacement du fichier Excel contenant l'évaluation de la menace résiduelle des parties prenantes"
                 type: "file"
                 extension: "xls"
                 label: 'Identifier les Mesures de Sécurité part 2 => Evaluation :'
@@ -286,12 +292,12 @@ tableaux:
                 keyWord: "Evaluation de la menace résiduelle des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text' 
             Representation_menace_numerique_residuelle_ecosysteme:
+                tooltip: "emplacement de l'image contenant la représentation de la menace numérique résiduelle de l'écosystème"
                 type: "image"
                 extension: "jpg"
                 label: "Cartographie de la menace numérique résiduelle : "
@@ -305,11 +311,13 @@ tableaux:
     "Atelier 4": 
         'Élaborer les Scénarios Opérationnels':
             nbScenariosOperationnels:
+                tooltip: "emplacement du fichier Excel contenant le nombre de scénarios opérationnels retenus"
                 type: "scénariosOperationnels" # permet d'identifier les scenarios opérationnels
                 label: "Nombre de scénarios opérationnels" # label
     "Atelier 5":
         'Stratégie de Traitement du Risque':
             mesures_securité:
+                tooltip: "emplacement du fichier Excel contenant les mesures de sécurité"
                 type: "file"
                 extension: "xls"
                 label: 'Base de mesures de sécurité : '
@@ -317,12 +325,12 @@ tableaux:
                 keyWord: "Mesures de sécurité" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text' 
             PACS:
+                tooltip: "emplacement du fichier Excel contenant le PACS"
                 type: "file"
                 extension: "xls"
                 label: 'Afficher le PACS : '
@@ -330,7 +338,6 @@ tableaux:
                 keyWord: "Plan d’Amélioration Continue de la Sécurité" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer, 0 par défaut
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt

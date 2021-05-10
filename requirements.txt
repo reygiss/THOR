@@ -3,3 +3,4 @@ xlrd
 colorama
 pyyaml
 docxtpl
+Pmw

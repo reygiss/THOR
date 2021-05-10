@@ -187,7 +187,7 @@ def copy_table(doc, index, tab, thor, excel, log):
     nbenteteword = tab["enteteWord"]
     nbenteteexcel = tab["enteteExcel"]
     sheet = tab["feuilleExcel"]
-    nbcolonnesignorees = tab["nbColonnesIgnorees"]
+    nbcolonnesignorees = thor["nbColonnesIgnorees"]
     textstyle = tab['style']['textStyle']
     table = doc.tables[index]  # Récupération de la table dans le document Word
     # Get Excel

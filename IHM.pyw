@@ -113,8 +113,12 @@ def update_ihm_strat(field, atel, inputs, root, numrow, numpart, mod):
             newlabel(atel, modele['label'].replace("{{ sc }}",
                                                    str(x + 1)), bold).grid(
                 column=0, row=numrow)  # positionnement
-            newentry(atel, normal, inputs["str" + str(x + 1)]).grid(
-                column=1, row=numrow)  # positionnement
+            if "tooltip" in modele:
+                newentry(atel, normal,  inputs["Image str" + str(x + 1)], modele["tooltip"]).grid(
+                    column=1, row=numrow)  # Champ de saisi
+            else:
+                newentry(atel, normal,  inputs["Image str" + str(x + 1)]).grid(
+                    column=1, row=numrow)  # Champ de saisi
             Button(atel, text=' search', font=bold,
                    image=excelicon, compound=LEFT,
                    command=partial(update_file, "." + modele["extension"],
@@ -124,8 +128,12 @@ def update_ihm_strat(field, atel, inputs, root, numrow, numpart, mod):
             newlabel(atel, modeleimage['label'].replace("{{ sc }}",
                                                         str(x + 1)), bold).grid(
                 column=0, row=numrow)  # on créer le label de l'image
-            newentry(atel, normal, inputs["Image str" + str(x + 1)]).grid(
-                column=1, row=numrow)  # positionnement
+            if "tooltip" in modele:
+                newentry(atel, normal,  inputs["Image str" + str(x + 1)], modele["tooltip"]).grid(
+                    column=1, row=numrow)  # Champ de saisi
+            else:
+                newentry(atel, normal,  inputs["Image str" + str(x + 1)]).grid(
+                    column=1, row=numrow)  # Champ de saisi
             Button(atel, text=' search',
                    font=bold,
                    image=jpgicon,
@@ -144,7 +152,7 @@ def update_ihm_strat(field, atel, inputs, root, numrow, numpart, mod):
         for x in range(int(field.get()), 2 * len(
                 context["scenariosStrategiques"])):
             # pour chaque widget de la ligne correspondante
-            for widget in atel.grid_slaves(row=x + 2 + numrow):
+            for widget in atel.grid_slaves(row=x + 1 + numrow):
                 widget.destroy()  # on detruit le widget
             if 'str' + str(x + 1) in inputs.keys():  # si la cle existe
                 # destruction de la cle du fichier excel
@@ -196,9 +204,13 @@ def update_ihm_oper(field, atel, inputs, root, numrow, numpart, mod):
             newlabel(atel, modeleimage['label'].replace("{{ sc }}", str(x + 1)),
                      bold).grid(column=0, row=numrow)
             # on place le champ de saisi du fichier excel
-            newentry(atel, normal,
-                     inputs["Image op" + str(x + 1)]).grid(column=1,
-                                                           row=numrow)
+            if "tooltip" in modeleimage:
+                newentry(atel, normal,  inputs["Image op" + str(x + 1)], modeleimage["tooltip"]).grid(
+                    column=1, row=numrow)  # Champ de saisi
+            else:
+                newentry(atel, normal,  inputs["Image op" + str(x + 1)]).grid(
+                    column=1, row=numrow)  # Champ de saisi
+
             Button(atel, text=' search',
                    font=bold,
                    image=jpgicon,
@@ -213,15 +225,18 @@ def update_ihm_oper(field, atel, inputs, root, numrow, numpart, mod):
     # si le nombre de scenarios a crée est inférieur au nombre dejà existant
     elif int(field.get()) < len(context["scenariosOperationnels"]):
         # pour chaque scenario en trop
+        destroyed = 0
         for x in range(int(field.get()), len(
                 context["scenariosOperationnels"])):
-            # chaque widhet de la ligne correspondante
+            # chaque widget de la ligne correspondante
             for widget in atel.grid_slaves(row=x + numrow):
                 widget.destroy()  # on detruit le widget
             if 'Image op' + str(x + 1) in inputs.keys():  # Si la cle existe
                 del inputs['Image op' + str(x + 1)]  # suppression de la cle
                 # suppression de la liste des scenarios opérationnels
                 context["scenariosOperationnels"].remove(x + 1)
+            destroyed = destroyed + 1
+        numrow = numrow-destroyed
     return numrow
 
 
@@ -299,8 +314,9 @@ def newlabeltitle(parent, text, font):
 # INPUT : textvariable : variable contenant la donnée utile
 
 
-def newentry(parent, font, textvariable):
-    return Entry(parent, width=95, font=font, textvariable=textvariable)
+def newentry(parent, font, textvariable, tooltip=""):
+    e = Entry(parent, width=95, font=font, textvariable=textvariable)
+    return e
 
 
 ###############################################################
@@ -557,7 +573,7 @@ context = {"scenariosStrategiques": [],
 
 # tableau de configuration pour la génération du rapport
 inputs = dict()
-# création d'une varibale de configuration
+# création d'une variale de configuration
 inputs["Rapport_input"] = StringVar(root)
 # création d'une varibale de configuration
 inputs["Rapport_output"] = StringVar(root)
@@ -578,6 +594,8 @@ for partie in ["echelles", "tableaux"]:  # niveau 1
 
 
 def initwin():
+    # creation infobulle
+
     ###############################################################
     # Identification d'une ligne sur la grille
     # principale de l'interface graphique
@@ -599,7 +617,9 @@ def initwin():
     numrow = 0  # positionnement au debut de l'atelier
     newlabeltitle(scrollable_frame,
                   'THOR v' + str(thor["version"]) +
-                  ' – Traitement Hybride pour l’Optimisation du Rapport', bold).grid(
+                  ' – Script de génération de rapport Word à partir de ' +
+                  'fichiers Excel\n\nActuellement dans la configuration, ' +
+                  str(thor["nbColonnesIgnorees"]) + ' colonnes ignorée(s) à gauche dans les fichiers Excel', bold).grid(
         column=0, row=numpart, pady=10)
     numpart = numpart + 1
     # Menu
@@ -617,20 +637,20 @@ def initwin():
 
     newlabel(rapport, 'Document Word en entrée: ', bold).grid(
         column=0, row=numrow)
-    newentry(rapport, normal, inputs["Rapport_input"]).grid(
-        column=1, row=numrow)
+    newentry(rapport, normal, inputs["Rapport_input"], "Emplacement du fichier Word servant de modèle de "
+                                                       "rapport\n - peut etre un modèle vierge\n - peut etre le "
+                                                       "fichier word de sortie de la précédente utilisation du "
+                                                       "script").grid(column=1, row=numrow)
     Button(rapport, text=' search',
            font=bold,
            image=wordicon,
            compound=LEFT,
            command=partial(update_file, ".docx",
-                           inputs["Rapport_input"])).grid(
-        column=2, row=numrow, padx=10)
+                           inputs["Rapport_input"])).grid(column=2, row=numrow, padx=10)
     numrow = numrow + 1
-
     newlabel(rapport, 'Document Word en sortie: ', bold).grid(
         column=0, row=numrow)
-    newentry(rapport, normal, inputs["Rapport_output"]).grid(
+    newentry(rapport, normal, inputs["Rapport_output"], "Emplacement de sauvegarde du rapport Word de sortie").grid(
         column=1, row=numrow)
     Button(rapport, text=' search',
            font=bold,
@@ -645,7 +665,8 @@ def initwin():
         column=0, row=numrow)
     newentry(rapport,
              normal,
-             inputs["Config_file"]).grid(
+             inputs["Config_file"], "Emplacement de sauvegarde du fichier de configuration de l'interface pour une "
+                                    "réutilisation future").grid(
         column=1, row=numrow)
     Button(rapport,
            text=' search',
@@ -674,8 +695,12 @@ def initwin():
                     if tab["type"] == "file":  # pour les fichiers
                         newlabel(atel, tab["label"], bold).grid(
                             column=0, row=numrow)  # Label
-                        newentry(atel, normal, inputs[tabkey]).grid(
-                            column=1, row=numrow)  # Champ de saisi
+                        if "tooltip" in tab:
+                            newentry(atel, normal, inputs[tabkey], tab["tooltip"]).grid(
+                                column=1, row=numrow)  # Champ de saisi
+                        else:
+                            newentry(atel, normal, inputs[tabkey]).grid(
+                                column=1, row=numrow)  # Champ de saisi
                         Button(atel,
                                text=' search',
                                font=bold,
@@ -688,8 +713,12 @@ def initwin():
                     elif tab["type"] == "scénariosStrategiques":
                         newlabel(atel, tab["label"], bold).grid(
                             column=0, row=numrow)  # Label
-                        newentry(atel, normal, inputs[tabkey]).grid(
-                            column=1, row=numrow)  # Champ de saisi
+                        if "tooltip" in tab:
+                            newentry(atel, normal, inputs[tabkey], tab["tooltip"]).grid(
+                                column=1, row=numrow)  # Champ de saisi
+                        else:
+                            newentry(atel, normal, inputs[tabkey]).grid(
+                                column=1, row=numrow)  # Champ de saisi
                         Button(atel,
                                text=' update',
                                font=bold,
@@ -718,8 +747,12 @@ def initwin():
                     elif tab["type"] == "scénariosOperationnels":
                         newlabel(atel, tab["label"], bold).grid(
                             column=0, row=numrow)  # Label
-                        newentry(atel, normal, inputs[tabkey]).grid(
-                            column=1, row=numrow)  # Champ de saisi
+                        if "tooltip" in tab:
+                            newentry(atel, normal, inputs[tabkey], tab["tooltip"]).grid(
+                                column=1, row=numrow)  # Champ de saisi
+                        else:
+                            newentry(atel, normal, inputs[tabkey]).grid(
+                                column=1, row=numrow)  # Champ de saisi
                         Button(atel,
                                text=' update',
                                font=bold,
@@ -746,8 +779,12 @@ def initwin():
                     elif tab["type"] == "image":  # pour les images
                         newlabel(atel, tab["label"], bold).grid(
                             column=0, row=numrow)  # Label
-                        newentry(atel, normal, inputs[tabkey]).grid(
-                            column=1, row=numrow)  # Champ de saisi
+                        if "tooltip" in tab:
+                            newentry(atel, normal, inputs[tabkey], tab["tooltip"]).grid(
+                                column=1, row=numrow)  # Champ de saisi
+                        else:
+                            newentry(atel, normal, inputs[tabkey]).grid(
+                                column=1, row=numrow)  # Champ de saisi
                         Button(atel,
                                text=' search',
                                font=bold,
