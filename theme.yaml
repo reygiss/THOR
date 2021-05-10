@@ -1,6 +1,7 @@
 version: 3.4
 debug: true
-nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer dans les fichiers Excel, 0 par défaut
+nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer dans les fichiers Excel, 1 par défaut
+
 modeles:
     Scénario_stratégique: # Ne pas supprimer, utiliser par le script pour générer les différents scénarios stratégiques
         tooltip: "emplacement du fichier Excel contenant le scenario stratégique"

@@ -619,7 +619,8 @@ def initwin():
                   'THOR v' + str(thor["version"]) +
                   ' – Script de génération de rapport Word à partir de ' +
                   'fichiers Excel\n\nActuellement dans la configuration, ' +
-                  str(thor["nbColonnesIgnorees"]) + ' colonnes ignorée(s) à gauche dans les fichiers Excel', bold).grid(
+                  str(thor["nbColonnesIgnorees"]) + ' colonne(s) ignorée(s) à gauche ' +
+                  'dans les fichiers Excel', bold).grid(
         column=0, row=numpart, pady=10)
     numpart = numpart + 1
     # Menu
