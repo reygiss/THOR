@@ -76,7 +76,7 @@ tableaux:
                 extension: "xls"
                 label: 'Base de Valeurs Métiers : '
                 enteteWord:  2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Valeurs Métiers" # Clé d'identification du tableau dans Word
+                keyWord: "Valeurs métier" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -149,7 +149,7 @@ tableaux:
                 extension: "xls"
                 label : 'Événements Redoutés (part 2) => Besoins de Sécurité: '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Besoins de sécurité" # Clé d'identification du tableau dans Word
+                keyWord: "Relation entre les besoins de sécurité des valeurs métiers et la gravité des événements redoutés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -168,7 +168,7 @@ tableaux:
                 extension: "xls"
                 label: 'Base des Sources de Risques : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Sources de risques" # Clé d'identification du tableau dans Word
+                keyWord: "Sources de risque" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -194,7 +194,7 @@ tableaux:
                 extension: "xls"
                 label: 'Évaluer des Couples SROV : '
                 enteteWord: 3 # nombre de lignes d'entete du tableau Word
-                keyWord: "Couples sources et objectifs visés" # Clé d'identification du tableau dans Word
+                keyWord: "Couples sources de risque et objectifs visés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -226,7 +226,7 @@ tableaux:
                 extension: "xls"
                 label: 'Évaluer la menace : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Evaluation des parties prenantes" # Clé d'identification du tableau dans Word
+                keyWord: "Évaluation des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -245,9 +245,9 @@ tableaux:
                 type: "image"
                 extension: "jpg"
                 label: "Cartographie de la menace numérique : "
-                keyWord: "Cartographie de la menace numérique de l’écosystème"
+                keyWord: "Cartographie de la menace initiale de l’écosystème"
                 enteteWord: 1
-                height: 14 # width en cm
+                height: 11.4 # width en cm
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -259,7 +259,7 @@ tableaux:
                 extension: "xls"
                 label: 'Afficher la Synthèse : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Scénarios stratégiques retenus" # Clé d'identification du tableau dans Word
+                keyWord: "Scénarios stratégiques identifiés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -290,7 +290,7 @@ tableaux:
                 extension: "xls"
                 label: 'Identifier les Mesures de Sécurité part 2 => Evaluation :'
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Evaluation de la menace résiduelle des parties prenantes" # Clé d'identification du tableau dans Word
+                keyWord: "Évaluation de la menace résiduelle des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -302,9 +302,9 @@ tableaux:
                 type: "image"
                 extension: "jpg"
                 label: "Cartographie de la menace numérique résiduelle : "
-                keyWord: "Cartographie de la menace numérique résiduelle de l’écosystème"
+                keyWord: "Cartographie de la menace résiduelle de l’écosystème"
                 enteteWord: 1
-                height: 14 # width en cm
+                height: 11.4 # width en cm
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
@@ -317,13 +317,25 @@ tableaux:
                 label: "Nombre de scénarios opérationnels" # label
     "Atelier 5":
         'Stratégie de Traitement du Risque':
+            cartographie_risque_initial:
+                tooltip: "emplacement de l'image contenant la représentation de la cartographie du risque initale"
+                type: "image"
+                extension: "jpg"
+                label: "Cartographie du risque initial : "
+                keyWord: "Cartographie du risque initial"
+                enteteWord: 1
+                height: 9 # width en cm
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    alignment: center
             mesures_securité:
                 tooltip: "emplacement du fichier Excel contenant les mesures de sécurité"
                 type: "file"
                 extension: "xls"
                 label: 'Base de mesures de sécurité : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Mesures de sécurité" # Clé d'identification du tableau dans Word
+                keyWord: "Couverture des risques par les mesures" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
@@ -335,11 +347,23 @@ tableaux:
                 type: "file"
                 extension: "xls"
                 label: 'Afficher le PACS : '
-                enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Plan d’Amélioration Continue de la Sécurité" # Clé d'identification du tableau dans Word
+                enteteWord: 3 # nombre de lignes d'entete du tableau Word
+                keyWord: "Plan de mise en œuvre des mesures de sécurité additionnelles" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
                 feuilleExcel: "Sheet1" #Nom de la feuille Excel
                 style:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text' 
+            cartographie_risque_residuel:
+                tooltip: "emplacement de l'image contenant la représentation de la cartographie du risque résiduel"
+                type: "image"
+                extension: "jpg"
+                label: "Cartographie du risque résiduel : "
+                keyWord: "Cartographie du risque résiduel"
+                enteteWord: 1
+                height: 9 # width en cm
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    alignment: center

@@ -114,10 +114,10 @@ def update_ihm_strat(field, atel, inputs, root, numrow, numpart, mod):
                                                    str(x + 1)), bold).grid(
                 column=0, row=numrow)  # positionnement
             if "tooltip" in modele:
-                newentry(atel, normal,  inputs["Image str" + str(x + 1)], modele["tooltip"]).grid(
+                newentry(atel, normal,  inputs["str" + str(x + 1)], modele["tooltip"]).grid(
                     column=1, row=numrow)  # Champ de saisi
             else:
-                newentry(atel, normal,  inputs["Image str" + str(x + 1)]).grid(
+                newentry(atel, normal,  inputs["str" + str(x + 1)]).grid(
                     column=1, row=numrow)  # Champ de saisi
             Button(atel, text=' search', font=bold,
                    image=excelicon, compound=LEFT,

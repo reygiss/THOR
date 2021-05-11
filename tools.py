@@ -623,6 +623,7 @@ def generate_rapport(config, context, log, thor):
                                             p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
                                         else:
                                             p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                                log.insert(END, "\nimage " + tab["keyWord"] + " copiée")
     # sauvegarde finale
     try:
         doc.save(config["Rapport_output"])  # sauvegarde finale du rapport
