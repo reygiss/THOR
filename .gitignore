@@ -13,6 +13,7 @@ __pycache__/
 /dist/
 
 # Distribution / packaging
+*.bat
 .Python
 build/
 develop-eggs/
