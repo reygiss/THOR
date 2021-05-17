@@ -1,4 +1,5 @@
 import xlrd
+
 from docxtpl import DocxTemplate
 from docx.oxml.shared import OxmlElement, qn
 from docx.shared import Cm, RGBColor
@@ -100,13 +101,11 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
     try:
         wb = xlrd.open_workbook(excel, formatting_info=True)  # ouverture du fichier Excel
         sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichie Excel
-    except:
+    except BaseException as e :
+        log.insert(END, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : Erreur à l'ouverture du fichier Excel " + excel)
-            return echelle
+        return echelle
     try:
         # récupération de la taille du tableau, les fonctions max_row
         # et max_col retourne des valeurs éronnées
@@ -118,13 +117,11 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
                                                           int(rgb[1]),
                                                           int(rgb[2])))))
         return echelle
-    except:
+    except BaseException as e:
+        log.insert(END, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : Erreur à l'import de la legende " + excel)
-            return echelle
+        return echelle
 
 
 ###################################################################
@@ -142,13 +139,11 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
         wb = xlrd.open_workbook(excel, formatting_info=True)
         # Récupération de la feuille dans le fichie Excel
         sheet = wb.sheet_by_name(sheet)
-    except:
+    except BaseException as e:
+        log.insert(END, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : Erreur à l'ouverture du fichier Excel " + excel)
-            return echelle
+        return echelle
     try:
         # récupération de la taille du tableau, les fonctions max_row et
         # max_col retourne des valeurs éronnées
@@ -161,13 +156,10 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
                                                               int(rgb[1]),
                                                               int(rgb[2])))))
         return echelle
-    except:
+    except BaseException as e:
+        log.insert(END, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : Erreur \
-            à l'import de la legende " + excel)
 
 
 ###################################################################
@@ -194,13 +186,10 @@ def copy_table(doc, index, tab, thor, excel, log):
     try:
         wb = xlrd.open_workbook(excel, formatting_info=True)  # ouverture du fichier Excel
         sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichier Excel
-    except:
+    except BaseException as e:
+        log.insert(END, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : Erreur à \
-            l'ouverture du fichier Excel " + excel)
             return 1
     try:
         # récupération de la taille du tableau,
@@ -343,16 +332,15 @@ def copy_table(doc, index, tab, thor, excel, log):
         log.insert(END, "\ntableau du fichier Excel " + os.path.basename(
             excel) + " copié")
         return 0
-    except:
+    except BaseException as e:
+        log.insert(END, "\nERROR : " + str(e))
+        log.insert(END, "\nERROR : Erreur à la copie du tableau du fichier Excel " + os.path.basename(
+            excel) + " dans le tableau " + tab[
+                       "keyWord"] + ". Merci de vérifier que les formats des tableaux Word et Excel soient "
+                                    "identiques")
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : Erreur à la copie du tableau du fichier Excel " + os.path.basename(
-                excel) + " dans le tableau " + tab[
-                           "keyWord"] + ". Merci de vérifier que les formats des tableaux Word et Excel soient "
-                                        "identiques")
-            return 1
+        return 1
 
 
 ###################################################################
@@ -493,14 +481,12 @@ def generate_rapport(config, context, log, thor):
             doc = DocxTemplate(config["Rapport_input"])  # si le document word est renseigné
         else:
             doc = DocxTemplate(swd + "/modele/modele.docx")  # sinon on prend le modele par défaut
-    except:
+    except BaseException as e:
+        log.insert(END, "\nERROR : " + str(e))
+        log.insert(END, "\nERROR : le document word '" + config["Rapport_input"] + "' \
+                ne peut pas etre ouvert")
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : le document word '" + config["Rapport_input"] + "' \
-            ne peut pas etre ouvert")
-            raise
 
     # chargement des legendes a partir des fichiers Excel
     for _atelierkey, atelier in thor["echelles"].items():  # niveau 2, pour chaque atelier (ici atelier echelle)
@@ -568,13 +554,14 @@ def generate_rapport(config, context, log, thor):
                                                                 if float(cell.text[0:3]) >= float(ech.valeurs[z].seuil):
                                                                     # couleur de fond de la cellule
                                                                     set_shade_cell(cell, ech.valeurs[z].couleur)
-                                                except:
-                                                    if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-                                                        sys.exc_info()[0]  # On affiche l'erreur
+                                                except BaseException as e:
+                                                    log.insert(END, "\nERROR : " + str(e))
+                                                    log.insert(END,
+                                                               "\nWARNING: La légende " + nom + " est incorrecte")
+                                                    if thor[
+                                                        "debug"]:  # si mode debug activ" # si mode debug activ"
                                                         raise  # levée de l'erreur
-                                                    else:
-                                                        log.insert(END,
-                                                                   "\nWARNING: La légende " + nom + " est incorrecte")
+
                                             if "alignment" in col:  # si l'on a preciser l'alignement du texte pour
                                                 # la colonne
                                                 align = col["alignment"]  # recupereation de l'alignement
@@ -627,11 +614,11 @@ def generate_rapport(config, context, log, thor):
     # sauvegarde finale
     try:
         doc.save(config["Rapport_output"])  # sauvegarde finale du rapport
-    except:
-        if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            sys.exc_info()[0]  # On affiche l'erreur
+    except BaseException as e:
+        log.insert(END, "\nERROR : " + str(e))
+        log.insert(END, "\nERROR : la sauvegarde du rapport à échouée")
+        if thor[
+            "debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
-        else:
-            log.insert(END, "\nERROR : la sauvegarde du rapport à échouée")
-            nberror = nberror + 1
+        nberror = nberror + 1
     return nberror

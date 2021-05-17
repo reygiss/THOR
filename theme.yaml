@@ -1,5 +1,5 @@
-version: 3.4
-debug: true
+version: 3.5
+debug: false
 nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer dans les fichiers Excel, 1 par défaut
 
 modeles:
