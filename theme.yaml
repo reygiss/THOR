@@ -297,7 +297,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel contenant les mesures de sécurité de l'écosystème"
                 type: "file"
                 extension: "xls"
-                label: 'Identifier les Mesures de Sécurité part 1 => Description : '
+                label: 'Liste des mesures de sécurité : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Mesures de sécurité de l’écosystème" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -310,7 +310,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel contenant l'évaluation de la menace résiduelle des parties prenantes"
                 type: "file"
                 extension: "xls"
-                label: 'Identifier les Mesures de Sécurité part 2 => Evaluation :'
+                label: 'Menace résiduelle des partie prenantes :'
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Évaluation de la menace résiduelle des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
