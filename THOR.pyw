@@ -553,6 +553,11 @@ def check_config(config):
 
 
 ###############################################################
+def resize(event):
+    canvas.configure(height=root.winfo_height())
+
+
+###############################################################
 ## MAIN ##
 ###############################################################
 # Récupération du répertoire d'execution du script
@@ -564,16 +569,16 @@ lastdir = os.getcwd()
 
 # création de la fenetre
 root = Tk()
-
 root.configure(background="#FFFFFF")
 root.title('Generation du rapport Word')  # Ajout d'un titre
 root.resizable(True, True)  # autoriser le redimensionnement vertical.
+root.state('zoomed')
 
 # Gestion de la molette de la souris
 root.bind("<MouseWheel>", mousewheelhandler)
 root.bind("<Button-4>", mousewheelhandler)
 root.bind("<Button-5>", mousewheelhandler)
-
+root.bind("<Configure>", resize)
 # variables de police
 big = tkfont.Font(family='Arial', size=14, weight='bold')
 bold = tkfont.Font(family='Arial', size=12, weight='bold')
@@ -593,6 +598,7 @@ clubicon = PhotoImage(file=r"" + swd + "\images\club.png")
 # container avec la scrollbar
 container = Frame(root, background="#FFFFFF")
 # Canvas avec le contenu de la page
+
 canvas = Canvas(container, width=1500, height=700, background="#FFFFFF")
 # Barre de défilement verticale
 scrollbar = Scrollbar(container, orient="vertical", command=canvas.yview)
@@ -649,7 +655,6 @@ def initwin():
     journaux = newlabelframe(scrollable_frame, "Journalisation", bold)
     # Création d'un champ texte qui contiendra les journaux
     log = Text(journaux, width=100, height=20)
-
     Label(journaux, image=logicon).grid(column=0, row=numrow, pady=10, padx=20)
     log.grid(column=1, row=numrow, pady=10)  # affichage des journaux
     numrow = numrow + 1  # ligne suivante
@@ -870,7 +875,7 @@ def initwin():
     ###############################################################
     scrollable_frame.focus_set()
 
+
 ###############################################################
 initwin()  # initialisation de la fenetre
 root.mainloop()  # main loop
-
