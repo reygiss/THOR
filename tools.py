@@ -101,7 +101,7 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
     try:
         wb = xlrd.open_workbook(excel, formatting_info=True)  # ouverture du fichier Excel
         sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichie Excel
-    except BaseException as e :
+    except BaseException as e:
         log.insert(END, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur

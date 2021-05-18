@@ -1,4 +1,4 @@
-version: 3.5
+version: 3.6
 debug: false
 nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer dans les fichiers Excel, 1 par défaut
 
@@ -74,7 +74,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel des valeurs métier"
                 type: "file"
                 extension: "xls"
-                label: 'Base de Valeurs Métiers : '
+                label: 'Valeur Métier (VM) : '
                 enteteWord:  2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Valeurs métier" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -87,7 +87,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel des biens supports"
                 type: "file"
                 extension: "xls"
-                label: 'Base de Biens Supports : '
+                label: 'Biens Supports (BS) : '
                 enteteWord:  2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Biens supports" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -101,7 +101,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel de la synthese du périmètre métier"
                 type: "file"
                 extension: "xls"
-                label: 'Identifier les Missions : '
+                label: 'Synthèse du périmètre métier et technique : '
                 enteteWord:  3 # nombre de lignes d'entete du tableau Word
                 keyWord: "Synthèse du périmètre métier et technique" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -147,7 +147,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel des besoins de sécurité"
                 type: "file"
                 extension: "xls"
-                label : 'Besoins de Sécurité : '
+                label : 'Relation entre besoins de sécurité et événements redoutés : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Relation entre les besoins de sécurité des valeurs métiers et la gravité des événements redoutés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -184,7 +184,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel des sources de risques"
                 type: "file"
                 extension: "xls"
-                label: 'Base des Sources de Risques : '
+                label: 'Sources de risques (SR) : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Sources de risque" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -197,7 +197,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel des objectifs visés"
                 type: "file"
                 extension: "xls"
-                label: 'Base des Objectifs Visés : '
+                label: 'Objectifs Visés (OV) : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Objectifs visés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -210,7 +210,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel des SROV"
                 type: "file"
                 extension: "xls"
-                label: 'Évaluer des Couples SROV : '
+                label: 'Evaluation des couples SR/OV : '
                 enteteWord: 3 # nombre de lignes d'entete du tableau Word
                 keyWord: "Couples sources de risque et objectifs visés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -229,7 +229,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel contenant la description des parties prenantes"
                 type: "file"
                 extension: "xls"
-                label: 'Base des Parties Prenantes : '
+                label: 'Description des Parties Prenantes (PP) : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Description des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -242,7 +242,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel contenant l'évaluation des partie prenantes"
                 type: "file"
                 extension: "xls"
-                label: 'Évaluer la menace : '
+                label: 'Evaluation des Parties Prenantes (PP) : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Évaluation des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -262,7 +262,7 @@ tableaux:
                 tooltip: "emplacement de l'image JPG contenant la représentation numérique de l'écosystème"
                 type: "image"
                 extension: "jpg"
-                label: "Cartographie de la menace numérique : "
+                label: "Représentation de cartographie de la menace numérique initiale : "
                 keyWord: "Cartographie de la menace initiale de l’écosystème"
                 enteteWord: 1
                 height: 11.4 # width en cm
@@ -275,7 +275,7 @@ tableaux:
                 tooltip: "emplacement du fichier Excel contenant la synthése des scénarios stratégiques"
                 type: "file"
                 extension: "xls"
-                label: 'Afficher la Synthèse : '
+                label: 'Synthèse des scénarios stratégiques : '
                 enteteWord: 3 # nombre de lignes d'entete du tableau Word
                 keyWord: "Scénarios stratégiques identifiés" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -291,13 +291,13 @@ tableaux:
             nbScenariosStrategiques:
                 tooltip: "nombre de scénarios stratégiques retenus"
                 type: "scénariosStrategiques" # permet d'identifier les scenarios strategiques
-                label: "Nombre de scénarios stratégique" # label
+                label: "Nombre de scénarios stratégique : " # label
         "Définir les Mesures de Sécurité sur l'Écosystème":
             Mesures_securite_ecosysteme:
                 tooltip: "emplacement du fichier Excel contenant les mesures de sécurité de l'écosystème"
                 type: "file"
                 extension: "xls"
-                label: 'Liste des mesures de sécurité : '
+                label: 'Mesures de sécurité sur les parties prenantes : '
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Mesures de sécurité de l’écosystème" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
@@ -306,11 +306,29 @@ tableaux:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text' 
+            Application_securite_ecosysteme:
+                tooltip: "emplacement du fichier Excel contenant l'état d'application du socle sur les parties prenantes"
+                type: "file"
+                extension: "xls"
+                label: "Etat d'application du socle sur les parties prenantes : "
+                enteteWord: 2 # nombre de lignes d"entete du tableau Word
+                keyWord: "Etat d’application du socle sur les Parties Prenantes" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text'
+                    colonnes:
+                        4:
+                            backgroundColor: "#DDDDDD" #couleur de fond de la colonne
+                        7:
+                            backgroundColor: "#DDDDDD" #couleur de fond de la colonne
             Evaluation_menace_résiduelle_parties_prenantes:
                 tooltip: "emplacement du fichier Excel contenant l'évaluation de la menace résiduelle des parties prenantes"
                 type: "file"
                 extension: "xls"
-                label: 'Menace résiduelle des partie prenantes :'
+                label: "Evaluation de la menace résiduelle des partie prenantes : "
                 enteteWord: 2 # nombre de lignes d'entete du tableau Word
                 keyWord: "Évaluation de la menace résiduelle des parties prenantes" # Clé d'identification du tableau dans Word
                 enteteExcel: 2 # nombre de lignes d'entete du tableau Excel

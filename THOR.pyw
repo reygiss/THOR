@@ -14,6 +14,46 @@ thor = load(f, Loader=Loader)
 f.close()
 
 
+###################################################################
+# class permettant de générer des infobulles
+class InfoBulle(Toplevel):
+    def __init__(self, parent=None, texte='', temps=100):
+        Toplevel.__init__(self, parent, bd=1, bg='black')
+        self.tps = temps
+        self.parent = parent
+        self.withdraw()
+        self.overrideredirect(1)
+        self.transient()
+        l = Label(self, text=texte, bg="white", justify='left')
+        l.update_idletasks()
+        l.pack()
+        l.update_idletasks()
+        self.tipwidth = l.winfo_width()
+        self.tipheight = l.winfo_height()
+        self.parent.bind('<Enter>', self.delai)
+        self.parent.bind('<Button-1>', self.efface)
+        self.parent.bind('<Leave>', self.efface)
+
+    def delai(self, event):
+        self.action = self.parent.after(self.tps, self.affiche)
+
+    def affiche(self):
+        self.update_idletasks()
+        posX = self.parent.winfo_rootx()  # + self.parent.winfo_width()
+        posY = self.parent.winfo_rooty() + self.parent.winfo_height()
+        if posX + self.tipwidth > self.winfo_screenwidth():
+            posX = posX - self.winfo_width() - self.tipwidth
+        if posY + self.tipheight > self.winfo_screenheight():
+            posY = posY - self.winfo_height() - self.tipheight
+        # ~ print posX,print posY
+        self.geometry('+%d+%d' % (posX, posY))
+        self.deiconify()
+
+    def efface(self, event):
+        self.withdraw()
+        self.parent.after_cancel(self.action)
+
+
 ###############################################################
 # fenetre explorateur de fichier pour la selection d'un nom de fichier
 # INPUT : extension : extension autorisées pour la selection de fichier
@@ -284,7 +324,7 @@ def newlabelframe(parent, title, font):
 def newlabel(parent, text, font):
     return Label(parent,
                  background="#FFFFFF",
-                 text=text, width=45,
+                 text=text, width=50,
                  font=font,
                  anchor="e")
 
@@ -316,6 +356,8 @@ def newlabeltitle(parent, text, font):
 
 def newentry(parent, font, textvariable, tooltip=""):
     e = Entry(parent, width=95, font=font, textvariable=textvariable)
+    if tooltip != "":
+        InfoBulle(parent=e, texte=tooltip)
     return e
 
 
@@ -616,7 +658,7 @@ def initwin():
     ###############################################################
     numrow = 0  # positionnement au debut de l'atelier
     titleFrame = newlabelframe(scrollable_frame, "", bold)
-    Label(titleFrame, image=clubicon).grid(column=0, row=numrow, pady=10, padx=20)
+    Label(titleFrame, image=clubicon).grid(column=0, row=numrow, pady=10, padx=37)
     newlabeltitle(titleFrame,
                   'THOR v' + str(thor["version"]) +
                   ' – Script de génération de rapport Word à partir de ' +
@@ -624,23 +666,24 @@ def initwin():
                   str(thor["nbColonnesIgnorees"]) + ' colonne(s) ignorée(s) à gauche ' +
                   'dans les fichiers Excel', bold).grid(
         column=1, row=numrow, pady=10)
-    Label(titleFrame, image=copyrighticon).grid(column=2, row=numrow, pady=10, padx=20)
+    Label(titleFrame, image=copyrighticon).grid(column=2, row=numrow, pady=10, padx=25)
 
     numpart = numpart + 1
     # Menu
-    Button(titleFrame, text='Load config',
-           image=jsonicon, compound=LEFT,
-           font=bold,
-           command=partial(load_config, log, inputs)).grid(
-        column=1, row=numpart)
-    titleFrame.grid(row=numpart, column=0, padx=20, pady=10)
+
+    b = Button(titleFrame, text='Load config',
+               image=jsonicon, compound=LEFT,
+               font=bold,
+               command=partial(load_config, log, inputs))
+    b.grid(column=1, row=numpart)
+    InfoBulle(parent=b, texte="chargement d'un fichier de configuration issue d'une précédente utilisation de THOR")
+    titleFrame.grid(row=numpart, column=0, padx=20, pady=10, )
     numpart = numpart + 1
 
     ###############################################################
     # Premiere partie, les options concernant le script
     numrow = 0  # positionnement au debut de l'atelier
     rapport = newlabelframe(scrollable_frame, "Rapport", bold)
-
     newlabel(rapport, 'Document Word en entrée: ', bold).grid(
         column=0, row=numrow)
     newentry(rapport, normal, inputs["Rapport_input"], "Emplacement du fichier Word servant de modèle de "
@@ -652,8 +695,9 @@ def initwin():
            image=wordicon,
            compound=LEFT,
            command=partial(update_file, ".docx",
-                           inputs["Rapport_input"])).grid(column=2, row=numrow, padx=10)
+                           inputs["Rapport_input"])).grid(column=2, row=numrow, padx=5)
     numrow = numrow + 1
+
     newlabel(rapport, 'Document Word en sortie: ', bold).grid(
         column=0, row=numrow)
     newentry(rapport, normal, inputs["Rapport_output"], "Emplacement de sauvegarde du rapport Word de sortie").grid(
@@ -664,7 +708,7 @@ def initwin():
            compound=LEFT,
            command=partial(update_file, ".docx",
                            inputs["Rapport_output"], True)).grid(
-        column=2, row=numrow, padx=10)
+        column=2, row=numrow, padx=5)
     numrow = numrow + 1
 
     newlabel(rapport, 'Fichier de configuration: ', bold).grid(
@@ -681,12 +725,11 @@ def initwin():
            compound=LEFT,
            command=partial(update_file, ".json",
                            inputs["Config_file"], True)).grid(
-        column=2, row=numrow, padx=10)
+        column=2, row=numrow, padx=5)
     numrow = numrow + 1
 
-    rapport.grid(row=numpart, column=0, padx=20, pady=10)
+    rapport.grid(row=numpart, column=0, pady=10)
     numpart = numpart + 1
-
     ###############################################################
     numrow = 0  # positionnement au debut de l'atelier
 
@@ -806,13 +849,14 @@ def initwin():
     ###############################################################
     numrow = 0  # positionnement au debut de l'atelier
     # positionnement du bouton pour générer le rapport
-    Button(scrollable_frame,
-           text=' Generate',
-           image=wordicon,
-           compound=LEFT,
-           font=bold,
-           command=partial(launch_rapport, inputs, log, thor)).grid(
-        column=0, row=numpart, pady=10)
+    b = Button(scrollable_frame,
+               text=' Generate',
+               image=wordicon,
+               compound=LEFT,
+               font=bold,
+               command=partial(launch_rapport, inputs, log, thor))
+    b.grid(column=0, row=numpart, pady=10)
+    InfoBulle(parent=b, texte="Génération du rapport Word")
     numpart = numpart + 1  # ligne suivante sur la grille principale
     # positionnement des journaux
     journaux.grid(row=numpart, column=0)  # affichage de l'atelier
@@ -824,8 +868,9 @@ def initwin():
     # affichage de la barre de défilement
     scrollbar.pack(side="right", fill="y")
     ###############################################################
-
+    scrollable_frame.focus_set()
 
 ###############################################################
 initwin()  # initialisation de la fenetre
 root.mainloop()  # main loop
+
