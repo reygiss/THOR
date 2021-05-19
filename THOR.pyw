@@ -531,11 +531,10 @@ def launch_rapport(config, log, thor):
     nberror = generate_rapport(config, context, log, thor)
     # Message de fin
     if nberror == 0:
-        messagebox.showinfo(title="Final", message=
-        "la génération du rapport est terminée avec succès")
+        messagebox.showinfo(title="Final", message="la génération du rapport est terminée avec succès")
     else:
-        messagebox.showerror(title="alert", message=
-        "la génération du rapport terminée avec " + str(nberror) + " erreurs")
+        messagebox.showerror(title="alert", message="la génération du rapport terminée avec "
+                                                    + str(nberror) + "erreurs")
     return True
 
 
@@ -554,7 +553,9 @@ def check_config(config):
 
 ###############################################################
 def resize(event):
-    canvas.configure(height=root.winfo_height())
+    height = root.winfo_height()
+    width = root.winfo_width()
+    canvas.configure(height=height)
 
 
 ###############################################################
@@ -563,13 +564,13 @@ def resize(event):
 # Récupération du répertoire d'execution du script
 # par défaut, la fenetre de recherche de fichier
 
-
 # s'ouvre dans le repertoire courant
 lastdir = os.getcwd()
 
 # création de la fenetre
 root = Tk()
 root.configure(background="#FFFFFF")
+root.minsize(width=1550, height=500)
 root.title('Generation du rapport Word')  # Ajout d'un titre
 root.resizable(True, True)  # autoriser le redimensionnement vertical.
 root.state('zoomed')
@@ -662,27 +663,27 @@ def initwin():
     # de l'atelier se fera en dernier
     ###############################################################
     numrow = 0  # positionnement au debut de l'atelier
-    titleFrame = newlabelframe(scrollable_frame, "", bold)
-    Label(titleFrame, image=clubicon).grid(column=0, row=numrow, pady=10, padx=37)
-    newlabeltitle(titleFrame,
+    title_frame = newlabelframe(scrollable_frame, "", bold)
+    Label(title_frame, image=clubicon).grid(column=0, row=numrow, pady=10, padx=37)
+    newlabeltitle(title_frame,
                   'THOR v' + str(thor["version"]) +
                   ' – Script de génération de rapport Word à partir de ' +
                   'fichiers Excel\n\nActuellement dans la configuration, ' +
                   str(thor["nbColonnesIgnorees"]) + ' colonne(s) ignorée(s) à gauche ' +
                   'dans les fichiers Excel', bold).grid(
         column=1, row=numrow, pady=10)
-    Label(titleFrame, image=copyrighticon).grid(column=2, row=numrow, pady=10, padx=25)
+    Label(title_frame, image=copyrighticon).grid(column=2, row=numrow, pady=10, padx=25)
 
     numpart = numpart + 1
     # Menu
 
-    b = Button(titleFrame, text='Load config',
+    b = Button(title_frame, text='Load config',
                image=jsonicon, compound=LEFT,
                font=bold,
                command=partial(load_config, log, inputs))
     b.grid(column=1, row=numpart)
     InfoBulle(parent=b, texte="chargement d'un fichier de configuration issue d'une précédente utilisation de THOR")
-    titleFrame.grid(row=numpart, column=0, padx=20, pady=10, )
+    title_frame.grid(row=numpart, column=0, padx=20, pady=10, )
     numpart = numpart + 1
 
     ###############################################################
