@@ -395,7 +395,7 @@ def load_config(log, inputs, filename=None):
             inputs[key].set(data[key])  # on charge la clé
         file.close()  # fermeture du fichier de configuration
         redraw(log)
-    except Basesion as e:
+    except BaseException as e:
         log.insert(END, "\nERROR : " + str(e))
         log.insert(END, "\nWARNING : \
                     Le fichier config.json est innexistant ou invalide")

@@ -472,147 +472,150 @@ class ScenarioStrategique:
 
 
 def generate_rapport(config, context, log, thor):
-    log.delete('1.0', END)  # on efface la journalisation de la précédente gérération de rapport
-    nberror = 0  # initalisation du nombre d'erreurs survenues lors de la génration du rapport
-    echelle = {}  # initalisation du tableau des echelles
-    swd = os.path.dirname(os.path.realpath(sys.argv[0]))  # repertoire d'installation du script
     try:
-        if config["Rapport_input"] != '':
-            doc = DocxTemplate(config["Rapport_input"])  # si le document word est renseigné
-        else:
-            doc = DocxTemplate(swd + "/modele/modele.docx")  # sinon on prend le modele par défaut
-    except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
-        log.insert(END, "\nERROR : le document word '" + config["Rapport_input"] + "' \
-                ne peut pas etre ouvert")
-        if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-            raise  # levée de l'erreur
+        log.delete('1.0', END)  # on efface la journalisation de la précédente gérération de rapport
+        nberror = 0  # initalisation du nombre d'erreurs survenues lors de la génration du rapport
+        echelle = {}  # initalisation du tableau des echelles
+        swd = os.path.dirname(os.path.realpath(sys.argv[0]))  # repertoire d'installation du script
+        try:
+            if config["Rapport_input"] != '':
+                doc = DocxTemplate(config["Rapport_input"])  # si le document word est renseigné
+            else:
+                doc = DocxTemplate(swd + "/modele/modele.docx")  # sinon on prend le modele par défaut
+        except BaseException as e:
+            log.insert(END, "\nERROR : " + str(e))
+            log.insert(END, "\nERROR : le document word '" + config["Rapport_input"] + "' \
+                    ne peut pas etre ouvert")
+            if thor["debug"]:  # si mode debug activ" # si mode debug activ"
+                raise  # levée de l'erreur
 
-    # chargement des legendes a partir des fichiers Excel
-    for _atelierkey, atelier in thor["echelles"].items():  # niveau 2, pour chaque atelier (ici atelier echelle)
-        for _titlekey, title in atelier.items():  # pour chaque regroupement d'echelles
-            for echkey, ech in title.items():  # pour chaque echelle déclarée
-                if config[echkey] != '':  # si le fichier excel est renseigné
-                    excel = config[echkey]  # recuperation du chemin du fichier excel
-                    sheet = ech["feuilleExcel"]  # recuperation du nom de la feuille Excel
-                    nbentete = ech["enteteExcel"]  # nombre de ligne d'entete du fichier excel
-                    # chargement de l'echelle
-                    echelle[echkey] = Echelle(echkey, ech["methode"], excel, sheet, nbentete, log, thor)
-                    log.insert(END, "\nechelle fixe " + echkey + " copiée")
-                else:
-                    log.insert(END, "\nWARNING: La légende " + echkey + " a été ignorée")
-    doc.render(context)
-    # Recherche des table à copier lors d'une lecture du document word.
-    for x in range(0, len(doc.tables)):  # Pour chaque table
-        # niveau 2 regroupement par atelier
-        for _atelierkey, atelier in thor["tableaux"].items():
-            # niveau 3 regroupement par sous-atelier
-            for _titlekey, title in atelier.items():
-                # niveau 4 - pour chaque tableau
-                for tabkey, tab in title.items():
-                    # si fichier Excel
-                    if tab["type"] == "file" and tab["extension"] == "xls":
-                        # Si la cellule [0,0] de la table correspond
-                        if doc.tables[x].cell(0, 0).text == tab["keyWord"]:
-                            if config[tabkey] != '':  # si le fichier excel est renseigné
-                                # copie de la table du fichier Excel
-                                nberror += copy_table(doc, x, tab, thor, config[tabkey], log)
-                                # style des birdures
-                                modifytableborders(doc.tables[x],
-                                                   tab["style"]["borderWidth"],
-                                                   tab["style"]["borderColor"])
-                                # Si l'on a rens eigner des colonnes à styliser
-                                if "colonnes" in tab["style"]:
-                                    # pour chaque colonne à styliser
-                                    for colKey, col in tab["style"]["colonnes"].items():
-                                        # Pour chaque ligne
-                                        for y in range(tab["enteteWord"],
-                                                       len(doc.tables[x].rows)):
-                                            # cellule de la 6éme colonne
-                                            cell = doc.tables[x].cell(y, int(colKey))
-                                            # si l'on a spécifier une echelle pour la colonnne
-                                            if "echelle" in col:
-                                                # nom de l'echelle à utiliser
-                                                nom = col["echelle"]
-                                                try:
-                                                    # si l'echelle est configuré
-                                                    if nom in echelle.keys():
-                                                        ech = echelle[nom]  # echelle
-                                                        # pour chaques valeurs de l'echelle
-                                                        for z in range(0, len(ech.valeurs)):
-                                                            # si c'est une echelle fixe
-                                                            if ech.methode == "fixe":
-                                                                # si le texte de la cellule correspond à la valeur de
-                                                                # l'echelle
-                                                                if ech.valeurs[z].nom == cell.text:
-                                                                    # couleur de fond de la troisieme colonne à partir
-                                                                    # de la premiere lettre du contenu de la cellule
-                                                                    set_shade_cell(cell, ech.valeurs[z].couleur)
-                                                            elif ech.methode == "calculée":  # si c'est une echelle
-                                                                # calculée
-                                                                # si le seuil correspond
-                                                                if float(cell.text[0:3]) >= float(ech.valeurs[z].seuil):
-                                                                    # couleur de fond de la cellule
-                                                                    set_shade_cell(cell, ech.valeurs[z].couleur)
-                                                except BaseException as e:
-                                                    log.insert(END, "\nERROR : " + str(e))
-                                                    log.insert(END,
-                                                               "\nWARNING: La légende " + nom + " est incorrecte")
-                                                    if thor[
-                                                        "debug"]:  # si mode debug activ" # si mode debug activ"
-                                                        raise  # levée de l'erreur
+        # chargement des legendes a partir des fichiers Excel
+        for _atelierkey, atelier in thor["echelles"].items():  # niveau 2, pour chaque atelier (ici atelier echelle)
+            for _titlekey, title in atelier.items():  # pour chaque regroupement d'echelles
+                for echkey, ech in title.items():  # pour chaque echelle déclarée
+                    if config[echkey] != '':  # si le fichier excel est renseigné
+                        excel = config[echkey]  # recuperation du chemin du fichier excel
+                        sheet = ech["feuilleExcel"]  # recuperation du nom de la feuille Excel
+                        nbentete = ech["enteteExcel"]  # nombre de ligne d'entete du fichier excel
+                        # chargement de l'echelle
+                        echelle[echkey] = Echelle(echkey, ech["methode"], excel, sheet, nbentete, log, thor)
+                        log.insert(END, "\nechelle fixe " + echkey + " copiée")
+                    else:
+                        log.insert(END, "\nWARNING: La légende " + echkey + " a été ignorée")
+        doc.render(context)
+        # Recherche des table à copier lors d'une lecture du document word.
+        for x in range(0, len(doc.tables)):  # Pour chaque table
+            # niveau 2 regroupement par atelier
+            for _atelierkey, atelier in thor["tableaux"].items():
+                # niveau 3 regroupement par sous-atelier
+                for _titlekey, title in atelier.items():
+                    # niveau 4 - pour chaque tableau
+                    for tabkey, tab in title.items():
+                        # si fichier Excel
+                        if tab["type"] == "file" and tab["extension"] == "xls":
+                            # Si la cellule [0,0] de la table correspond
+                            if doc.tables[x].cell(0, 0).text == tab["keyWord"]:
+                                if config[tabkey] != '':  # si le fichier excel est renseigné
+                                    # copie de la table du fichier Excel
+                                    nberror += copy_table(doc, x, tab, thor, config[tabkey], log)
+                                    # style des birdures
+                                    modifytableborders(doc.tables[x],
+                                                       tab["style"]["borderWidth"],
+                                                       tab["style"]["borderColor"])
+                                    # Si l'on a rens eigner des colonnes à styliser
+                                    if "colonnes" in tab["style"]:
+                                        # pour chaque colonne à styliser
+                                        for colKey, col in tab["style"]["colonnes"].items():
+                                            # Pour chaque ligne
+                                            for y in range(tab["enteteWord"],
+                                                           len(doc.tables[x].rows)):
+                                                # cellule de la 6éme colonne
+                                                cell = doc.tables[x].cell(y, int(colKey))
+                                                # si l'on a spécifier une echelle pour la colonnne
+                                                if "echelle" in col:
+                                                    # nom de l'echelle à utiliser
+                                                    nom = col["echelle"]
+                                                    try:
+                                                        # si l'echelle est configuré
+                                                        if nom in echelle.keys():
+                                                            ech = echelle[nom]  # echelle
+                                                            # pour chaques valeurs de l'echelle
+                                                            for z in range(0, len(ech.valeurs)):
+                                                                # si c'est une echelle fixe
+                                                                if ech.methode == "fixe":
+                                                                    # si le texte de la cellule correspond à la valeur de
+                                                                    # l'echelle
+                                                                    if ech.valeurs[z].nom == cell.text:
+                                                                        # couleur de fond de la troisieme colonne à partir
+                                                                        # de la premiere lettre du contenu de la cellule
+                                                                        set_shade_cell(cell, ech.valeurs[z].couleur)
+                                                                elif ech.methode == "calculée":  # si c'est une echelle
+                                                                    # calculée
+                                                                    # si le seuil correspond
+                                                                    if float(cell.text[0:3]) >= float(ech.valeurs[z].seuil):
+                                                                        # couleur de fond de la cellule
+                                                                        set_shade_cell(cell, ech.valeurs[z].couleur)
+                                                    except BaseException as e:
+                                                        log.insert(END, "\nERROR : " + str(e))
+                                                        log.insert(END,
+                                                                   "\nWARNING: La légende " + nom + " est incorrecte")
+                                                        if thor[
+                                                            "debug"]:  # si mode debug activ" # si mode debug activ"
+                                                            raise  # levée de l'erreur
 
-                                            if "alignment" in col:  # si l'on a preciser l'alignement du texte pour
-                                                # la colonne
-                                                align = col["alignment"]  # recupereation de l'alignement
-                                                for p in cell.paragraphs:  # pour chaque paragraph de la cellule word
-                                                    if align == "center":
-                                                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                                                    elif align == 'left':
-                                                        p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-                                                    elif align == 'right':
-                                                        p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-                                                    else:
-                                                        p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                                            if "backgroundColor" in col:  # si l'on a preciser la couleur de fond
-                                                # pour la colonne
-                                                couleur = col[
-                                                    "backgroundColor"]  # récupération de la couleur au format
-                                                # hexadecimal
-                                                set_shade_cell(cell,
-                                                               couleur)  # on applique la couleur de fond à la cellulle
-                            else:
-                                log.insert(END, "\nWARNING : tableau " + tab["keyWord"] + " de l’écosystème ignoré")
-                    elif tab["type"] == "image":  # si image
-                        # Si la cellule [0,0] de la table correspond
-                        if doc.tables[x].cell(0, 0).text == tab["keyWord"]:
-                            if config[tabkey] != '':  # si le fichier excel est renseigné
-                                # effacement de l'ancienne illustration
-                                remove_row(doc.tables[x], doc.tables[x].rows[tab["enteteWord"]])
-                                doc.tables[x].add_row()  # ajout d'une ligne vierge dans le tableau word
-                                doc.tables[x].cell(0, 1).paragraphs[0].add_run()  # ajout d'un run pour contenir l'image
-                                # ajout de l'image
-                                doc.tables[x].cell(0, 1).paragraphs[0].runs[0].add_picture(config[tabkey],
-                                                                                           height=Cm(tab["height"]))
-                                modifytableborders(doc.tables[x], tab["style"]["borderWidth"],
-                                                   tab["style"]["borderColor"])  # style des birdures
-                                # si l'on a preciser l'alignement du texte pour la colonne
-                                if "alignment" in tab["style"]:
-                                    align = tab["style"]["alignment"]  # recupereation de l'alignement
-                                    # pour chaque paragraph de la cellule word
-                                    for p in doc.tables[x].cell(0,
-                                                                1).paragraphs:
-                                        if align == "center":
-                                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                                        elif align == 'left':
-                                            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-                                        elif align == 'right':
-                                            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-                                        else:
-                                            p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                                log.insert(END, "\nimage " + tab["keyWord"] + " copiée")
+                                                if "alignment" in col:  # si l'on a preciser l'alignement du texte pour
+                                                    # la colonne
+                                                    align = col["alignment"]  # recupereation de l'alignement
+                                                    for p in cell.paragraphs:  # pour chaque paragraph de la cellule word
+                                                        if align == "center":
+                                                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                                                        elif align == 'left':
+                                                            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                                                        elif align == 'right':
+                                                            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+                                                        else:
+                                                            p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                                                if "backgroundColor" in col:  # si l'on a preciser la couleur de fond
+                                                    # pour la colonne
+                                                    couleur = col[
+                                                        "backgroundColor"]  # récupération de la couleur au format
+                                                    # hexadecimal
+                                                    set_shade_cell(cell,
+                                                                   couleur)  # on applique la couleur de fond à la cellulle
+                                else:
+                                    log.insert(END, "\nWARNING : tableau " + tab["keyWord"] + " de l’écosystème ignoré")
+                        elif tab["type"] == "image":  # si image
+                            # Si la cellule [0,0] de la table correspond
+                            if doc.tables[x].cell(0, 0).text == tab["keyWord"]:
+                                if config[tabkey] != '':  # si le fichier excel est renseigné
+                                    # effacement de l'ancienne illustration
+                                    remove_row(doc.tables[x], doc.tables[x].rows[tab["enteteWord"]])
+                                    r = doc.tables[x].add_row()  # ajout d'une ligne vierge dans le tableau word
+                                    doc.tables[x].cell(0, 1).paragraphs[0].add_run()  # ajout d'un run pour contenir l'image
+                                    # ajout de l'image
+                                    image = doc.tables[x].cell(0, 1).paragraphs[0].runs[0].add_picture(config[tabkey])
+                                    if image.width > doc.tables[x].cell(0, 1).width:
+                                        rapport = doc.tables[x].cell(0, 1).width / image.width
+                                        image.width = int(image.width * rapport * 0.99)
+                                        image.height = int(image.height * rapport * 0.99)
+                                    modifytableborders(doc.tables[x], tab["style"]["borderWidth"],
+                                                       tab["style"]["borderColor"])  # style des birdures
+                                    # si l'on a preciser l'alignement du texte pour la colonne
+                                    if "alignment" in tab["style"]:
+                                        align = tab["style"]["alignment"]  # recupereation de l'alignement
+                                        # pour chaque paragraph de la cellule word
+                                        for p in doc.tables[x].cell(0,
+                                                                    1).paragraphs:
+                                            if align == "center":
+                                                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                                            elif align == 'left':
+                                                p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                                            elif align == 'right':
+                                                p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+                                            else:
+                                                p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                                    log.insert(END, "\nimage " + tab["keyWord"] + " copiée")
     # sauvegarde finale
-    try:
         doc.save(config["Rapport_output"])  # sauvegarde finale du rapport
     except BaseException as e:
         log.insert(END, "\nERROR : " + str(e))
