@@ -271,6 +271,11 @@ tableaux:
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     alignment: center
         'Élaborer les Scénarios Stratégiques':
+            nbScenariosStrategiques:
+                tooltip: "nombre de scénarios stratégiques retenus"
+                type: "scénariosStrategiques" # permet d'identifier les scenarios strategiques
+                label: "Nombre de scénarios stratégique : " # label
+                
             Scénarios_stratégiques_retenus:
                 tooltip: "emplacement du fichier Excel contenant la synthése des scénarios stratégiques"
                 type: "file"
@@ -288,24 +293,8 @@ tableaux:
                         5:
                             echelle: "gravite" # nom de la echelle
                             alignment: center #alignement du texte dans la colonne
-            nbScenariosStrategiques:
-                tooltip: "nombre de scénarios stratégiques retenus"
-                type: "scénariosStrategiques" # permet d'identifier les scenarios strategiques
-                label: "Nombre de scénarios stratégique : " # label
-        "Définir les Mesures de Sécurité sur l'Écosystème":
-            Mesures_securite_ecosysteme:
-                tooltip: "emplacement du fichier Excel contenant les mesures de sécurité de l'écosystème"
-                type: "file"
-                extension: "xls"
-                label: 'Mesures de sécurité sur les parties prenantes : '
-                enteteWord: 2 # nombre de lignes d'entete du tableau Word
-                keyWord: "Mesures de sécurité de l’écosystème" # Clé d'identification du tableau dans Word
-                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
-                feuilleExcel: "Sheet1" #Nom de la feuille Excel
-                style:
-                    borderWidth: 12 # epaisseur de la bordure en pt
-                    borderColor: "#000000" # epaisseur de la bordure en pt
-                    textStyle: 'Body Text' 
+            
+        "Définir les Mesures de Sécurité sur l'Écosystème":        
             Application_securite_ecosysteme:
                 tooltip: "emplacement du fichier Excel contenant l'état d'application du socle sur les parties prenantes"
                 type: "file"
@@ -319,11 +308,20 @@ tableaux:
                     borderWidth: 12 # epaisseur de la bordure en pt
                     borderColor: "#000000" # epaisseur de la bordure en pt
                     textStyle: 'Body Text'
-                    colonnes:
-                        4:
-                            backgroundColor: "#DDDDDD" #couleur de fond de la colonne
-                        7:
-                            backgroundColor: "#DDDDDD" #couleur de fond de la colonne
+
+            Mesures_securite_ecosysteme:
+                tooltip: "emplacement du fichier Excel contenant les mesures complementaires de sécurité de l'écosystème"
+                type: "file"
+                extension: "xls"
+                label: 'Mesures complementaires de sécurité sur les parties prenantes : '
+                enteteWord: 2 # nombre de lignes d'entete du tableau Word
+                keyWord: "Mesures de sécurité permettant de réduire la menace représentée par les PP" # Clé d'identification du tableau dans Word
+                enteteExcel: 2 # nombre de lignes d'entete du tableau Excel
+                feuilleExcel: "Sheet1" #Nom de la feuille Excel
+                style:
+                    borderWidth: 12 # epaisseur de la bordure en pt
+                    borderColor: "#000000" # epaisseur de la bordure en pt
+                    textStyle: 'Body Text' 
             Evaluation_menace_résiduelle_parties_prenantes:
                 tooltip: "emplacement du fichier Excel contenant l'évaluation de la menace résiduelle des parties prenantes"
                 type: "file"
