@@ -98,6 +98,7 @@ def remove_row(table, row):
 
 def load_echelle_fixe(excel, sheet, nbentete, log, thor):
     echelle = []
+    nbcolonnesignorees = thor["nbColonnesIgnorees"]
     try:
         wb = xlrd.open_workbook(excel, formatting_info=True)  # ouverture du fichier Excel
         sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichie Excel
@@ -111,8 +112,8 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
         # et max_col retourne des valeurs éronnées
         maxrow = sheet.nrows  # Nombre de lignes dans le fichier Excel
         for x in range(nbentete, maxrow):
-            rgb = sheet.cell_value(x, 3).split(',')
-            echelle.append(EchelleFixe(sheet.cell_value(x, 2),
+            rgb = sheet.cell_value(x, 2 + nbcolonnesignorees).split(',')
+            echelle.append(EchelleFixe(sheet.cell_value(x, 1 + nbcolonnesignorees),
                                        "#" + str(RGBColor(int(rgb[0]),
                                                           int(rgb[1]),
                                                           int(rgb[2])))))
@@ -134,6 +135,7 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
 
 def load_echelle_calculee(excel, sheet, nbentete, log, thor):
     echelle = []
+    nbcolonnesignorees = thor["nbColonnesIgnorees"]
     try:
         # ouverture du fichier Excel
         wb = xlrd.open_workbook(excel, formatting_info=True)
@@ -149,9 +151,9 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
         # max_col retourne des valeurs éronnées
         maxrow = sheet.nrows  # Nombre de lignes dans le fichier Excel
         for x in range(nbentete, maxrow):
-            rgb = sheet.cell_value(x, 3).split(',')
-            echelle.append(EchelleCalculee(sheet.cell_value(x, 1),
-                                           sheet.cell_value(x, 2),
+            rgb = sheet.cell_value(x, 2 + nbcolonnesignorees).split(',')
+            echelle.append(EchelleCalculee(sheet.cell_value(x, 0 + nbcolonnesignorees),
+                                           sheet.cell_value(x, 1 + nbcolonnesignorees),
                                            "#" + str(RGBColor(int(rgb[0]),
                                                               int(rgb[1]),
                                                               int(rgb[2])))))
@@ -327,8 +329,8 @@ def copy_table(doc, index, tab, thor, excel, log):
                 # cf doc xlrd pour la limite superieure de mergedcell,
                 # il faut -1 afin d'avoir la bonne valeur dans
                 # word et on ignore la premiere colonne
-                # d'excel donc -1 supplémentaire pour la colonne dans word
-                table.cell(rlo + ecart, clo - 1).merge(table.cell(rhi - 1 + ecart, chi - 2))
+                # d'excel donc -1 supplémentaire pour la colonne dans excel
+                table.cell(rlo + ecart, clo - nbcolonnesignorees).merge(table.cell(rhi - 1 + ecart, chi - 1 - nbcolonnesignorees))
         log.insert(END, "\ntableau du fichier Excel " + os.path.basename(
             excel) + " copié")
         return 0
@@ -446,13 +448,10 @@ class Echelle:
             # chargement d'une echelle calculée
             self.valeurs = load_echelle_calculee(excel, sheet, nbentete, log, thor)
         else:
+            log.insert(END, "\nWarning : La configuration de la \
+                           legende '" + echkey + "' n'est pas conforme")
             if thor["debug"]:  # si mode debug activ" # si mode debug activ"
-                sys.exc_info()[0]  # On affiche l'erreur
                 raise  # levée de l'erreur
-            else:
-                log.insert(END, "\nWarning : La configuration de la \
-                legende '" + echkey + "' n'est pas conforme")
-
 
 ###################################################################
 # class permettant de récupérer la liste des scenarios stratégiques

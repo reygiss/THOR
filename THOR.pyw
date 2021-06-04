@@ -1,15 +1,39 @@
+import fnmatch
 import json
+import os
 import tkinter.font as tkfont
 from functools import partial
 from tkinter import *
-from tkinter import filedialog, messagebox
-from yaml import Loader, load
+from tkinter import filedialog, messagebox, ttk
 from tools import *
+from yaml import Loader, load
+
+version = "3.9"
+
+###############################################################
+def chooseTheme(values):
+    top = Tk()  # use Toplevel() instead of Tk()
+    Label(top, text='Selectionner le theme : ').pack(padx=20, pady=5)
+    box_value = StringVar()
+    combo = ttk.Combobox(top, textvariable=box_value, values=values)
+    combo.pack(padx=20, pady=5)
+    combo.bind('<<ComboboxSelected>>', lambda _: top.destroy())
+    top.grab_set()
+    top.wait_window(top)  # wait for itself destroyed, so like a modal dialog
+    return box_value.get()
+
 
 ###############################################################
 swd = os.path.dirname(os.path.realpath(sys.argv[0]))
+# liste des thee yaml présents
+flist = fnmatch.filter(os.listdir(swd), '*.yaml')
+print("len : " + str(len(flist)))
+if len(flist) > 1:
+    theme = chooseTheme(flist)
+else:
+    theme = flist[0]
 # Chargement du fichier YAML
-f = open(swd + "/theme.yaml", 'r', encoding='utf8')
+f = open(theme, 'r', encoding='utf8')
 thor = load(f, Loader=Loader)
 f.close()
 
@@ -666,8 +690,8 @@ def initwin():
     title_frame = newlabelframe(scrollable_frame, "", bold)
     Label(title_frame, image=clubicon).grid(column=0, row=numrow, pady=10, padx=37)
     newlabeltitle(title_frame,
-                  'THOR v' + str(thor["version"]) +
-                  ' – Script de génération de rapport Word à partir de ' +
+                  'THOR v' + version +
+                  ' – Script de génération de rpport Word à partir de ' +
                   'fichiers Excel\n\nActuellement dans la configuration, ' +
                   str(thor["nbColonnesIgnorees"]) + ' colonne(s) ignorée(s) à gauche ' +
                   'dans les fichiers Excel', bold).grid(
