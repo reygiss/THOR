@@ -8,23 +8,134 @@ from tkinter import filedialog, messagebox, ttk
 from tools import *
 from yaml import Loader, load
 
-version = "3.9"
+version = "3.10"
+
+# variables de police
+big = 'Arial 14 bold'
+bold = 'Arial 12 bold'
+normal = 'Arial 12'
+
+# repertoire d'execution du script
+swd = os.path.dirname(os.path.realpath(sys.argv[0]))
+
+# variables des images
+exceliconfile = swd + "\images\excel.jpg"
+addiconfile = swd + "\images\\add.png"
+wordiconfile = swd + "\images\word.jpg"
+jsoniconfile = swd + "\images\json.jpg"
+logiconfile = swd + "\images\log.png"
+jpgiconfile = swd + "\images\jpg.png"
+copyrighticonfile = swd + "\images\copyright.png"
+clubiconfile = swd + "\images\club.png"
+
+
+###############################################################
+# fonction aide pour la création de label pour une
+# Frame dans l'interface graphique.
+# elle permet que tous les labels aient la même configuration
+# INPUT : parent : parent contenant le nouveau label
+# INPUT : title : texte du label
+# INPUT : font : mise en forme du label (en gras ou normal)
+
+
+def newlabelframe(parent, title, font):
+    return LabelFrame(parent,
+                      bd=2,
+                      relief='solid',
+                      text=title,
+                      padx=0,
+                      pady=10,
+                      font=font,
+                      background="#FFFFFF")
+
+
+###############################################################
+# fonction aide pour la création de label dans l'interface graphique.
+# elle permet que tous les labels aient la même configuration
+# INPUT : parent : parent contenant le nouveau label
+# INPUT : title : texte du label
+# INPUT : font : mise en forme du label (en gras ou normal)
+
+
+def newlabel(parent, text, font):
+    return Label(parent,
+                 background="#FFFFFF",
+                 text=text, width=50,
+                 font=font,
+                 anchor="e")
+
+
+###############################################################
+# fonction aide pour la création de label de Titre dans l'interface graphique.
+# elle permet que tous les labels aient la même configuration
+# INPUT : parent : parent contenant le nouveau label
+# INPUT : title : texte du label
+# INPUT : font : mise en forme du label (en gras ou normal)
+
+
+def newlabeltitle(parent, text, font):
+    return Label(parent,
+                 text=text,
+                 foreground="#892222",
+                 background="#CCCCCC",
+                 width=95,
+                 font=font)
+
+
+###############################################################
+# fonction aide pour la création d'un champ texte dans l'interface graphique.
+# elle permet que tous les champs aient la même configuration
+# INPUT : parent : parent contenant le nouveau label
+# INPUT : font : mise en forme du label (en gras ou normal)
+# INPUT : textvariable : variable contenant la donnée utile
+
+
+def newentry(parent, font, textvariable, tooltip=""):
+    e = Entry(parent, width=95, font=font, textvariable=textvariable)
+    if tooltip != "":
+        InfoBulle(parent=e, texte=tooltip)
+    return e
+
 
 ###############################################################
 def chooseTheme(values):
     top = Tk()  # use Toplevel() instead of Tk()
-    Label(top, text='Selectionner le theme : ').pack(padx=20, pady=5)
+    top.minsize(width=1550, height=500)
+    numrow = 0
+    copyrighticon = PhotoImage(file=r"" + copyrighticonfile)
+    clubicon = PhotoImage(file=r"" + clubiconfile)
+    title_frame = newlabelframe(top, "", bold)
+    Label(title_frame, image=clubicon).grid(column=0, row=numrow, pady=10, padx=37)
+    newlabeltitle(title_frame,
+                  'THOR v' + version +
+                  ' – Script de génération de rapport Word à partir de ' +
+                  'fichiers Excel', bold).grid(
+        column=1, row=numrow, pady=10)
+    Label(title_frame, image=copyrighticon).grid(column=2, row=numrow, pady=10, padx=25)
+
+    numrow = numrow + 1
+    # Menu
+    combo_frame = newlabelframe(top, "", bold)
+    Label(combo_frame, background="#FFFFFF",
+          text="Selectionner le theme associer à votre modèle de rapport : \n(paramètrage du script)",
+          width=50,
+          font=bold,
+          anchor="e").grid(row=0, column=0, pady=10, padx=25)
     box_value = StringVar()
-    combo = ttk.Combobox(top, textvariable=box_value, values=values)
-    combo.pack(padx=20, pady=5)
-    combo.bind('<<ComboboxSelected>>', lambda _: top.destroy())
+    combo = ttk.Combobox(combo_frame, textvariable=box_value, values=values)
+    combo.grid(column=1, row=0, pady=10, padx=25)
+    numrow = numrow + 1
+
+    title_frame.grid(row=0, column=0, padx=20, pady=10)
+    combo_frame.grid(row=1, column=0)
+    top.bind('<<ComboboxSelected>>', lambda _: top.destroy())
     top.grab_set()
     top.wait_window(top)  # wait for itself destroyed, so like a modal dialog
     return box_value.get()
 
 
 ###############################################################
-swd = os.path.dirname(os.path.realpath(sys.argv[0]))
+
 # liste des thee yaml présents
 flist = fnmatch.filter(os.listdir(swd), '*.yaml')
 print("len : " + str(len(flist)))
@@ -318,74 +429,6 @@ def redraw(log):
 
 
 ###############################################################
-# fonction aide pour la création de label pour une
-# Frame dans l'interface graphique.
-# elle permet que tous les labels aient la même configuration
-# INPUT : parent : parent contenant le nouveau label
-# INPUT : title : texte du label
-# INPUT : font : mise en forme du label (en gras ou normal)
-
-
-def newlabelframe(parent, title, font):
-    return LabelFrame(parent,
-                      bd=2,
-                      relief='solid',
-                      text=title,
-                      padx=0,
-                      pady=10,
-                      font=font,
-                      background="#FFFFFF")
-
-
-###############################################################
-# fonction aide pour la création de label dans l'interface graphique.
-# elle permet que tous les labels aient la même configuration
-# INPUT : parent : parent contenant le nouveau label
-# INPUT : title : texte du label
-# INPUT : font : mise en forme du label (en gras ou normal)
-
-
-def newlabel(parent, text, font):
-    return Label(parent,
-                 background="#FFFFFF",
-                 text=text, width=50,
-                 font=font,
-                 anchor="e")
-
-
-###############################################################
-# fonction aide pour la création de label de Titre dans l'interface graphique.
-# elle permet que tous les labels aient la même configuration
-# INPUT : parent : parent contenant le nouveau label
-# INPUT : title : texte du label
-# INPUT : font : mise en forme du label (en gras ou normal)
-
-
-def newlabeltitle(parent, text, font):
-    return Label(parent,
-                 text=text,
-                 foreground="#892222",
-                 background="#CCCCCC",
-                 width=100,
-                 font=font)
-
-
-###############################################################
-# fonction aide pour la création d'un champ texte dans l'interface graphique.
-# elle permet que tous les champs aient la même configuration
-# INPUT : parent : parent contenant le nouveau label
-# INPUT : font : mise en forme du label (en gras ou normal)
-# INPUT : textvariable : variable contenant la donnée utile
-
-
-def newentry(parent, font, textvariable, tooltip=""):
-    e = Entry(parent, width=95, font=font, textvariable=textvariable)
-    if tooltip != "":
-        InfoBulle(parent=e, texte=tooltip)
-    return e
-
-
-###############################################################
 # Handler permettant de prendre en compte
 # la molette de la souris pour scroller l'ecran
 
@@ -604,22 +647,18 @@ root.bind("<MouseWheel>", mousewheelhandler)
 root.bind("<Button-4>", mousewheelhandler)
 root.bind("<Button-5>", mousewheelhandler)
 root.bind("<Configure>", resize)
-# variables de police
-big = tkfont.Font(family='Arial', size=14, weight='bold')
-bold = tkfont.Font(family='Arial', size=12, weight='bold')
-normal = tkfont.Font(family='Arial', size=12)
 
 # déclaration des images utilisées
-excelicon = PhotoImage(file=r"" + swd + "\images\excel.jpg")
-addicon = PhotoImage(file=r"" + swd + "\images\\add.png")
-wordicon = PhotoImage(file=r"" + swd + "\images\word.jpg")
-jsonicon = PhotoImage(file=r"" + swd + "\images\json.jpg")
-logicon = PhotoImage(file=r"" + swd + "\images\log.png")
-jpgicon = PhotoImage(file=r"" + swd + "\images\jpg.png")
-copyrighticon = PhotoImage(file=r"" + swd + "\images\copyright.png")
-clubicon = PhotoImage(file=r"" + swd + "\images\club.png")
 
-# Configuration de la barre de defilement
+# Configuration de la barre de defilementexcelicon = PhotoImage(file=r"" + swd + "\images\excel.jpg")
+addicon = PhotoImage(file=r"" + addiconfile)
+wordicon = PhotoImage(file=r"" + wordiconfile)
+excelicon = PhotoImage(file=r"" + exceliconfile)
+jsonicon = PhotoImage(file=r"" + jsoniconfile)
+logicon = PhotoImage(file=r"" + logiconfile)
+jpgicon = PhotoImage(file=r"" + jpgiconfile)
+copyrighticon = PhotoImage(file=r"" + copyrighticonfile)
+clubicon = PhotoImage(file=r"" + clubiconfile)
 # container avec la scrollbar
 container = Frame(root, background="#FFFFFF")
 # Canvas avec le contenu de la page
@@ -691,21 +730,25 @@ def initwin():
     Label(title_frame, image=clubicon).grid(column=0, row=numrow, pady=10, padx=37)
     newlabeltitle(title_frame,
                   'THOR v' + version +
-                  ' – Script de génération de rpport Word à partir de ' +
-                  'fichiers Excel\n\nActuellement dans la configuration, ' +
+                  ' – Script de génération de rapport Word à partir de fichiers Excel' +
+                  "\n\n\nTheme selectionne : " + thor["name"] +
+                  '\n\n\nActuellement dans la configuration, ' +
                   str(thor["nbColonnesIgnorees"]) + ' colonne(s) ignorée(s) à gauche ' +
-                  'dans les fichiers Excel', bold).grid(
+                  'dans les fichiers Excel '
+                  , bold).grid(
         column=1, row=numrow, pady=10)
     Label(title_frame, image=copyrighticon).grid(column=2, row=numrow, pady=10, padx=25)
 
-    numpart = numpart + 1
+    numrow = numrow + 1
+
     # Menu
 
+    numpart = numpart + 1
     b = Button(title_frame, text='Load config',
                image=jsonicon, compound=LEFT,
                font=bold,
                command=partial(load_config, log, inputs))
-    b.grid(column=1, row=numpart)
+    b.grid(column=1, row=numrow)
     InfoBulle(parent=b, texte="chargement d'un fichier de configuration issue d'une précédente utilisation de THOR")
     title_frame.grid(row=numpart, column=0, padx=20, pady=10, )
     numpart = numpart + 1

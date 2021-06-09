@@ -1,3 +1,4 @@
+name: "ALL4TEC"
 version: 1.0
 debug: false
 nbColonnesIgnorees: 1 # nombre de colonnes à gauche qu'il faut ignorer dans les fichiers Excel, 1 par défaut
