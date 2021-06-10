@@ -100,6 +100,7 @@ def newentry(parent, font, textvariable, tooltip=""):
 ###############################################################
 def chooseTheme(values):
     top = Tk()  # use Toplevel() instead of Tk()
+    top.title("THOR")
     top.minsize(width=1550, height=500)
     numrow = 0
     copyrighticon = PhotoImage(file=r"" + copyrighticonfile)
@@ -636,6 +637,7 @@ lastdir = os.getcwd()
 
 # création de la fenetre
 root = Tk()
+root.title("THOR")
 root.configure(background="#FFFFFF")
 root.minsize(width=1550, height=500)
 root.title('Generation du rapport Word')  # Ajout d'un titre
