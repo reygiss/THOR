@@ -145,9 +145,12 @@ if len(flist) > 1:
 else:
     theme = flist[0]
 # Chargement du fichier YAML
-f = open(theme, 'r', encoding='utf8')
-thor = load(f, Loader=Loader)
-f.close()
+try:
+    f = open(theme, 'r', encoding='utf8')
+    thor = load(f, Loader=Loader)
+    f.close()
+except  BaseException as e:
+    quit()
 
 
 ###################################################################
@@ -640,7 +643,6 @@ root = Tk()
 root.title("THOR")
 root.configure(background="#FFFFFF")
 root.minsize(width=1550, height=500)
-root.title('Generation du rapport Word')  # Ajout d'un titre
 root.resizable(True, True)  # autoriser le redimensionnement vertical.
 root.state('zoomed')
 
