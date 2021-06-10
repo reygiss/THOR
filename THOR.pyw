@@ -1,6 +1,7 @@
 import fnmatch
 import json
 import os
+import sys
 import tkinter.font as tkfont
 from functools import partial
 from tkinter import *
@@ -27,6 +28,7 @@ logiconfile = swd + "\images\log.png"
 jpgiconfile = swd + "\images\jpg.png"
 copyrighticonfile = swd + "\images\copyright.png"
 clubiconfile = swd + "\images\club.png"
+logoiconfile = swd + "\images\logo.ico"
 
 
 ###############################################################
@@ -100,6 +102,8 @@ def newentry(parent, font, textvariable, tooltip=""):
 ###############################################################
 def chooseTheme(values):
     top = Tk()  # use Toplevel() instead of Tk()
+    # root.tk.call('wm', 'iconphoto', root._w, tk.PhotoImage(file='/path/to/ico/icon.png')
+    top.iconbitmap(logoiconfile)
     top.title("THOR")
     top.minsize(width=1550, height=500)
     numrow = 0
@@ -150,7 +154,7 @@ try:
     thor = load(f, Loader=Loader)
     f.close()
 except  BaseException as e:
-    quit()
+    sys.exit()
 
 
 ###################################################################
@@ -640,6 +644,7 @@ lastdir = os.getcwd()
 
 # création de la fenetre
 root = Tk()
+root.iconbitmap(logoiconfile)
 root.title("THOR")
 root.configure(background="#FFFFFF")
 root.minsize(width=1550, height=500)
