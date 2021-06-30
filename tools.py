@@ -18,6 +18,7 @@ from tkinter import END
 
 def logupdate(log, text):
     log.insert(END, text)
+    log.yview_moveto('1.0')
     log.update()
 
 

@@ -727,9 +727,14 @@ def initwin():
     # creation d'un atelier journalisation
     journaux = newlabelframe(scrollable_frame, "Journalisation", bold)
     # Création d'un champ texte qui contiendra les journaux
-    log = Text(journaux, width=100, height=20)
+    log = Text(journaux, width=160, height=20, )
+
     Label(journaux, image=logicon).grid(column=0, row=numrow, pady=10, padx=20)
     log.grid(column=1, row=numrow, pady=10)  # affichage des journaux
+    # create a Scrollbar and associate it with log
+    scrollb = ttk.Scrollbar(journaux, command=log.yview)
+    scrollb.grid(row=numrow, column=2, sticky='nsew')
+    log['yscrollcommand'] = scrollb.set
     numrow = numrow + 1  # ligne suivante
     # les journaux seront positionnés en bas de la fenetre, donc le positionnement
     # de l'atelier se fera en dernier
@@ -941,7 +946,8 @@ def initwin():
     InfoBulle(parent=b, texte="Génération du rapport Word")
     numpart = numpart + 1  # ligne suivante sur la grille principale
     # positionnement des journaux
-    journaux.grid(row=numpart, column=0)  # affichage de l'atelier
+    journaux.grid(row=numpart, column=0, sticky="nsew")  # affichage de l'atelier
+
     numpart = numpart + 1  # ligne suivante sur la grille principale
     ###############################################################
     container.pack()  # affichage du container
