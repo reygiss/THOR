@@ -4,9 +4,21 @@ from docxtpl import DocxTemplate
 from docx.oxml.shared import OxmlElement, qn
 from docx.shared import Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from threading import Timer
+
 import sys
 import os
 from tkinter import END
+
+
+###################################################################
+# mise à jour des logs
+# INPUT : le pointeur vers le champ de log de l'interface garaphique
+# INPUT : l etext à afficher
+
+def logupdate(log, text):
+    log.insert(END, text)
+    log.update()
 
 
 ###################################################################
@@ -103,7 +115,7 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
         wb = xlrd.open_workbook(excel, formatting_info=True)  # ouverture du fichier Excel
         sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichie Excel
     except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
+        logupdate(log, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
         return echelle
@@ -119,7 +131,7 @@ def load_echelle_fixe(excel, sheet, nbentete, log, thor):
                                                           int(rgb[2])))))
         return echelle
     except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
+        logupdate(log, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
         return echelle
@@ -142,7 +154,7 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
         # Récupération de la feuille dans le fichie Excel
         sheet = wb.sheet_by_name(sheet)
     except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
+        logupdate(log, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
         return echelle
@@ -159,7 +171,7 @@ def load_echelle_calculee(excel, sheet, nbentete, log, thor):
                                                               int(rgb[2])))))
         return echelle
     except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
+        logupdate(log, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
 
@@ -189,7 +201,7 @@ def copy_table(doc, index, tab, thor, excel, log):
         wb = xlrd.open_workbook(excel, formatting_info=True)  # ouverture du fichier Excel
         sheet = wb.sheet_by_name(sheet)  # Récupération de la feuille dans le fichier Excel
     except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
+        logupdate(log, "\nERROR : " + str(e))
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
             return 1
@@ -330,16 +342,17 @@ def copy_table(doc, index, tab, thor, excel, log):
                 # il faut -1 afin d'avoir la bonne valeur dans
                 # word et on ignore la premiere colonne
                 # d'excel donc -1 supplémentaire pour la colonne dans excel
-                table.cell(rlo + ecart, clo - nbcolonnesignorees).merge(table.cell(rhi - 1 + ecart, chi - 1 - nbcolonnesignorees))
-        log.insert(END, "\ntableau du fichier Excel " + os.path.basename(
+                table.cell(rlo + ecart, clo - nbcolonnesignorees).merge(
+                    table.cell(rhi - 1 + ecart, chi - 1 - nbcolonnesignorees))
+        logupdate(log, "\ntableau du fichier Excel " + os.path.basename(
             excel) + " copié")
         return 0
     except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
-        log.insert(END, "\nERROR : Erreur à la copie du tableau du fichier Excel " + os.path.basename(
+        logupdate(log, "\nERROR : " + str(e))
+        logupdate(log, "\nERROR : Erreur à la copie du tableau du fichier Excel " + os.path.basename(
             excel) + " dans le tableau " + tab[
-                       "keyWord"] + ". Merci de vérifier que les formats des tableaux Word et Excel soient "
-                                    "identiques")
+                      "keyWord"] + ". Merci de vérifier que les formats des tableaux Word et Excel soient "
+                                   "identiques")
         if thor["debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
         return 1
@@ -448,10 +461,11 @@ class Echelle:
             # chargement d'une echelle calculée
             self.valeurs = load_echelle_calculee(excel, sheet, nbentete, log, thor)
         else:
-            log.insert(END, "\nWarning : La configuration de la \
+            logupdate(log, "\nWarning : La configuration de la \
                            legende '" + echkey + "' n'est pas conforme")
             if thor["debug"]:  # si mode debug activ" # si mode debug activ"
                 raise  # levée de l'erreur
+
 
 ###################################################################
 # class permettant de récupérer la liste des scenarios stratégiques
@@ -482,8 +496,8 @@ def generate_rapport(config, context, log, thor):
             else:
                 doc = DocxTemplate(swd + "/modele/modele.docx")  # sinon on prend le modele par défaut
         except BaseException as e:
-            log.insert(END, "\nERROR : " + str(e))
-            log.insert(END, "\nERROR : le document word '" + config["Rapport_input"] + "' \
+            logupdate(log, "\nERROR : " + str(e))
+            logupdate(log, "\nERROR : le document word '" + config["Rapport_input"] + "' \
                     ne peut pas etre ouvert")
             if thor["debug"]:  # si mode debug activ" # si mode debug activ"
                 raise  # levée de l'erreur
@@ -498,9 +512,10 @@ def generate_rapport(config, context, log, thor):
                         nbentete = ech["enteteExcel"]  # nombre de ligne d'entete du fichier excel
                         # chargement de l'echelle
                         echelle[echkey] = Echelle(echkey, ech["methode"], excel, sheet, nbentete, log, thor)
-                        log.insert(END, "\nechelle fixe " + echkey + " copiée")
+                        # logupdate(log, "\nechelle fixe " + echkey + " copiée")
+                        logupdate(log, "\nechelle fixe " + echkey + " copiée")
                     else:
-                        log.insert(END, "\nWARNING: La légende " + echkey + " a été ignorée")
+                        logupdate(log, "\nWARNING: La légende " + echkey + " a été ignorée")
         doc.render(context)
         # Recherche des table à copier lors d'une lecture du document word.
         for x in range(0, len(doc.tables)):  # Pour chaque table
@@ -551,11 +566,12 @@ def generate_rapport(config, context, log, thor):
                                                                 elif ech.methode == "calculée":  # si c'est une echelle
                                                                     # calculée
                                                                     # si le seuil correspond
-                                                                    if float(cell.text[0:3]) >= float(ech.valeurs[z].seuil):
+                                                                    if float(cell.text[0:3]) >= float(
+                                                                            ech.valeurs[z].seuil):
                                                                         # couleur de fond de la cellule
                                                                         set_shade_cell(cell, ech.valeurs[z].couleur)
                                                     except BaseException as e:
-                                                        log.insert(END, "\nERROR : " + str(e))
+                                                        logupdate(log, "\nERROR : " + str(e))
                                                         log.insert(END,
                                                                    "\nWARNING: La légende " + nom + " est incorrecte")
                                                         if thor[
@@ -582,7 +598,7 @@ def generate_rapport(config, context, log, thor):
                                                     set_shade_cell(cell,
                                                                    couleur)  # on applique la couleur de fond à la cellulle
                                 else:
-                                    log.insert(END, "\nWARNING : tableau " + tab["keyWord"] + " de l’écosystème ignoré")
+                                    logupdate(log, "\nWARNING : tableau " + tab["keyWord"] + " de l’écosystème ignoré")
                         elif tab["type"] == "image":  # si image
                             # Si la cellule [0,0] de la table correspond
                             if doc.tables[x].cell(0, 0).text == tab["keyWord"]:
@@ -590,7 +606,8 @@ def generate_rapport(config, context, log, thor):
                                     # effacement de l'ancienne illustration
                                     remove_row(doc.tables[x], doc.tables[x].rows[tab["enteteWord"]])
                                     r = doc.tables[x].add_row()  # ajout d'une ligne vierge dans le tableau word
-                                    doc.tables[x].cell(0, 1).paragraphs[0].add_run()  # ajout d'un run pour contenir l'image
+                                    doc.tables[x].cell(0, 1).paragraphs[
+                                        0].add_run()  # ajout d'un run pour contenir l'image
                                     # ajout de l'image
                                     image = doc.tables[x].cell(0, 1).paragraphs[0].runs[0].add_picture(config[tabkey])
                                     if image.width > doc.tables[x].cell(0, 1).width:
@@ -613,12 +630,12 @@ def generate_rapport(config, context, log, thor):
                                                 p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
                                             else:
                                                 p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                                    log.insert(END, "\nimage " + tab["keyWord"] + " copiée")
-    # sauvegarde finale
+                                    logupdate(log, "\nimage " + tab["keyWord"] + " copiée")
+        # sauvegarde finale
         doc.save(config["Rapport_output"])  # sauvegarde finale du rapport
     except BaseException as e:
-        log.insert(END, "\nERROR : " + str(e))
-        log.insert(END, "\nERROR : la sauvegarde du rapport à échouée")
+        logupdate(log, "\nERROR : " + str(e))
+        logupdate(log, "\nERROR : la sauvegarde du rapport à échouée")
         if thor[
             "debug"]:  # si mode debug activ" # si mode debug activ"
             raise  # levée de l'erreur
