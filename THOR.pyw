@@ -9,7 +9,7 @@ from tkinter import filedialog, messagebox, ttk
 from tools import *
 from yaml import Loader, load
 
-version = "3.10"
+version = "3.11"
 
 # variables de police
 big = 'Arial 14 bold'
