@@ -3,7 +3,7 @@ Python : Script d'import de tableau Excel dans un document Word
 ## Licence
 <table><tr>
 <td><strong>Creative Commons<strong> </td><td>Pas d'utilisation commerciale <br>
-Partage dans les mêmes conditions</td><td> <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img src="images/licence.png?raw=true"/></a> </td>
+Partage dans les mêmes conditions</td><td> <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img src="images/licence.png?raw=true" width=100/></a> </td>
 </tr></table>
   
 ##	Présentation
